@@ -11,7 +11,7 @@ public class Characters
 
 public class Player : Characters
 {
-    
+    public bool isStupid { get; set; }
 }
 public class Dragon : Characters
 {
