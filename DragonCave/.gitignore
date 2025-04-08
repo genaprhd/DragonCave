@@ -1,0 +1,15 @@
+# Сборка
+bin/
+obj/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+packages/
+
+# Логи и временные файлы
+*.log
+*.cache
+TestResults/
