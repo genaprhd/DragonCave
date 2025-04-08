@@ -16,20 +16,6 @@ public class Game
         Dragon.Name = "Erandol";
         Thread.Sleep(1000);
         Console.WriteLine($"The Dragon waits, it has {Dragon.Health}HP. Throw the dice! You have 3 tries.");
-        /*while (play == true)
-        {
-            DiceRollGame.Roll();
-            Console.WriteLine("Again? Y/N: ");
-            string Answer = Console.ReadLine();
-            switch (Answer)
-            {
-                case "y" or "Y":
-                    play = true;
-                    break;
-                case "n" or "N":
-                    play = false;
-                    break;
-            }*/
         int bonusDamage = DiceRollGame.Roll();
         int turn = 0;
         int option = 0;
@@ -46,13 +32,13 @@ public class Game
                     Thread.Sleep(1000);
                     Console.Write(
                         $"{Player.Name}, your turn!"); 
-                    Move1 = Functions.MakeATurn(Player.Name, option, false);
+                    Move1 = Fight.MakeATurn(Player.Name, option, false);
                 }
                 else if(turn % 2 == 0)
                 {
                     option = Functions.GetRandomNumber(1, 2+1);
                     Thread.Sleep(1000);
-                    Move2 = Functions.MakeATurn(Dragon.Name, option, true);
+                    Move2 = Fight.MakeATurn(Dragon.Name, option, true);
                 }
                 Fight.Battle(Move1, Move2);
             }
