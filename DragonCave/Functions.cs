@@ -89,4 +89,8 @@ public class Functions
         }
        return option = 0;
     }
+    public static float HealthChange(float Health, int damage)
+    {
+        return 0;
+    } 
 }

@@ -33,7 +33,9 @@ public class Game
         int bonusDamage = DiceRollGame.Roll();
         int turn = 0;
         int option = 0;
-
+        int Move1 = 0;
+        int Move2 = 0;
+        
         while (Dragon.Health >= 0 && Player.Health >= 0)
         {
             while (true)
@@ -44,14 +46,15 @@ public class Game
                     Thread.Sleep(1000);
                     Console.Write(
                         $"{Player.Name}, your turn!"); 
-                    Functions.MakeATurn(Player.Name, option, false);
+                    Move1 = Functions.MakeATurn(Player.Name, option, false);
                 }
                 else if(turn % 2 == 0)
                 {
                     option = Functions.GetRandomNumber(1, 2+1);
                     Thread.Sleep(1000);
-                    Functions.MakeATurn(Dragon.Name, option, true);
+                    Move2 = Functions.MakeATurn(Dragon.Name, option, true);
                 }
+                Fight.Battle(Move1, Move2);
             }
         }
     }
