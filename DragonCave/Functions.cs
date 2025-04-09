@@ -1,5 +1,3 @@
-using System.ComponentModel.Design;
-
 namespace DragonCave;
 
 public class Functions
@@ -64,7 +62,7 @@ public class Functions
         }
     }
     
-    public static float HealthChange(float Health, int damage)
+    public static float HealthChange(float health, int damage)
     {
         return 0;
     } 
