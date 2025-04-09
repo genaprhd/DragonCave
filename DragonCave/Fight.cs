@@ -1,21 +1,27 @@
+using System.Security.Cryptography;
+
 namespace DragonCave;
 
 public class Fight
 {
-    public static int Battle(Characters player, Characters dragon, int move1, int move2)
+    private static int Battle(Characters player, Characters dragon, int move1, int move2)
     {
-        int Winner = 0;
-        if (move1 == 1)
+        while (dragon.Health >= 0 && player.Health >= 0)
         {
-            if (move2 == 1)
+            int Winner = 0;
+            if (move1 == 1)
             {
-                
+                if (move2 == 1)
+                {
+
+                }
             }
+            return 0;
         }
         return 0;
     }
 
-    public static int MakeATurn(string name, int option, bool isBot)
+    private static int MakeATurn(string name, int option, bool isBot)
     {
         if (isBot == false)
         {
@@ -40,7 +46,7 @@ public class Fight
         return option = 0;
     }
 
-    public static void GameIsOn(string playerName, string mobName)
+    public static void GameIsOn(Characters player, Characters dragon)
     {
         int turn = 0;
         int move1 = 0;
@@ -53,16 +59,16 @@ public class Fight
             {
                 Thread.Sleep(1000);
                 Console.Write(
-                    $"{playerName}, your turn!");
-                move1 = Fight.MakeATurn(playerName, option, false);
+                    $"{player.Name}, your turn!");
+                move1 = Fight.MakeATurn(player.Name, option, false);
             }
             else if (turn % 2 == 0)
             {
                 option = Functions.GetRandomNumber(1, 2 + 1);
                 Thread.Sleep(1000);
-                move2 = Fight.MakeATurn(mobName, option, true);
+                move2 = Fight.MakeATurn(dragon.Name, option, true);
             }
-            Battle(playerName, mobName, move1, move2);
+            Battle(player, dragon, move1, move2);
         }
     }
 }
