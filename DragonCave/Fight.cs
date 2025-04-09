@@ -4,7 +4,7 @@ namespace DragonCave;
 
 public class Fight
 {
-    private static int Battle(Characters player, Characters dragon, int move1, int move2)
+    private static int Battle(Character player, Character dragon, int move1, int move2)
     {
         while (dragon.Health >= 0 && player.Health >= 0)
         {
@@ -14,6 +14,7 @@ public class Fight
                 if (move2 == 1)
                 {
                     //TODO Здесь надо прописать логику боя, нанесения урона, учитываыя статусы, резисты игрока, персонажей
+                    
                 }
             }
             return 0;
@@ -46,7 +47,7 @@ public class Fight
         return option = 0;
     }
 
-    public static void GameIsOn(Characters player, Characters dragon)
+    public static void GameIsOn(Character player, Character dragon)
     {
         int turn = 0;
         int move1 = 0;

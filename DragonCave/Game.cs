@@ -6,7 +6,7 @@ public class Game
     {
         
         Console.WriteLine("Welcome to the Dragon cave! Name yourself, mortal.");
-        Characters player = new Player();
+        Character player = new Player();
         player.Name = Functions.GetCharacterName();
         
         
@@ -15,7 +15,7 @@ public class Game
         Console.WriteLine($"So, {player.Name}, you think {player.Health}HP is enough to beat the Dragon?");
         
         
-        Characters dragon = new Dragon();
+        Character dragon = new Dragon();
         dragon.Health = 150.0f;
         dragon.Name = "Erandol";
         

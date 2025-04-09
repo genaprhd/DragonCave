@@ -1,3 +1,4 @@
+
 namespace DragonCave;
 
 public class Functions
@@ -14,6 +15,10 @@ public class Functions
         }
     }
 
+    public static float ChangeCharacterHealth(Character character)
+    {
+        return 0;
+    }
     public static int GetOption()
     {
         int option = 0;
