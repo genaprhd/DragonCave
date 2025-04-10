@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 namespace DragonCave;
 
 public class Game

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DragonCave
+﻿namespace DragonCave
 {
     class Launcher
     {
