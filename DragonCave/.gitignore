@@ -12,45 +12,42 @@ packages/
 # Логи и временные файлы
 *.log
 *.cache
-TestResults/# macOS
-            .DS_Store
-            .AppleDouble
-            .LSOverride
-            Icon?
-            ._*
-            
-            # Rider
-            .idea/
-            *.sln.iml
-            
-            # C# и .NET
-            bin/
-            obj/
-            *.user
-            *.suo
-            *.cache
-            *.pdb
-            *.dll
-            *.exe
-            *.nupkg
-            packages/
-            TestResults/
-            
-            # Логи и временные файлы
-            *.log
-            *.tmp
-            *.bak
-            
-            # Папки сборки и публикации
-            [Bb]uild/
-            [Pp]ublish/
-            [Dd]eploy/
-            
-            # NuGet
-            *.nuget.props
-            *.nuget.targets
-            
-            # Диагностика и отладка
-            *.vs/
-            *.vscode/
-            *.vscode/
+TestResults/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# C# и .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.dll
+*.exe
+*.nupkg
+packages/
+TestResults/
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.bak
+
+# Папки сборки и публикации
+[Bb]uild/
+[Pp]ublish/
+[Dd]eploy/
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+
+# Диагностика и отладка
+*.vs/
+*.vscode/
