@@ -2,14 +2,14 @@ namespace DragonCave;
 
 public class DiceRollGame
 {
-    public static int Roll()
+    public static float Roll()
     {
-        int damage = 1;
+        float damage = 1;
         int neededNum = Functions.GetRandomNumber(1,
             20+1);
         Console.WriteLine($"Your needed number is {neededNum}");
         int diceRoll = 1;
-        while (diceRoll <= 3 && (damage != -2 && damage != 2))
+        while (diceRoll <= 3 && (damage != 0.5f && damage != 2))
         {
             Thread.Sleep(1000);
             int gotNum = Functions.GetRandomNumber(1, 20+1);
@@ -20,7 +20,7 @@ public class DiceRollGame
         return damage;
     }
 
-    private static int DidIWin(int playerScore, int dragonScore)
+    private static float DidIWin(int playerScore, int dragonScore)
     {
         bool isWinner = false;
         bool defeat = false;
@@ -35,7 +35,7 @@ public class DiceRollGame
         {
             Thread.Sleep(2000);
             Console.WriteLine($"Eto Razjeb, your dice ({playerScore}) is smaller then Needed ({dragonScore}) by {summ}!\n You have been crushed in the dice game. Recieved damage increases x2!");
-            return -2;
+            return 0.5f;
         }
         else if (playerScore > dragonScore)
         {

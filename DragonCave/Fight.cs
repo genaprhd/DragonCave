@@ -2,30 +2,41 @@ namespace DragonCave;
 
 public class Fight
 {
-    private static int Battle(Character player, Character dragon, int move1, int move2)
+    private static void Battle(Character person1, Character person2, int move1, int move2, float bonusDamage)
     {
-        while (dragon.Health >= 0 && player.Health >= 0)
+        if (move1 == 1)
         {
-            int Winner = 0;
-            if (move1 == 1)
+            Attack(person1, person2, bonusDamage);
+            if (move2 == 1)
             {
-                if (move2 == 1)
-                {
-                    //TODO Здесь надо прописать логику боя, нанесения урона, учитываыя статусы, резисты игрока, персонажей
-                    
-                }
+                Attack(person2, person1, bonusDamage = 0);
             }
-            return 0;
+            else
+            {
+                Block(person2, person1, bonusDamage = 0);
+            }
         }
-        return 0;
+        else if (move1 == 2)
+        {
+            Block(person1, person2, bonusDamage);
+            if (move2 == 1)
+            {
+                Attack(person2, person1, bonusDamage = 0);
+            }
+            else
+            {
+                Block(person2, person1, bonusDamage = 0);
+            }
+        }
+        Console.WriteLine($"{person1.Health}HP - new health. {person2.Health} HP");
     }
 
     private static int MakeATurn(string name, int option, bool isBot)
     {
-        if (isBot == false)
+        if (!isBot)
         {
             Thread.Sleep(2000);
-            Console.WriteLine(" Make your move!\n 1. Attack (5-15 damage)\n 2. Block (3-5 damage)\n Your answer: ");
+            Console.WriteLine(" Make your move!\n1. Attack (5-15 damage)\n2. Block (3-5 damage)\nYour answer: ");
             option = Functions.GetOption();
         }
 
@@ -33,41 +44,89 @@ public class Fight
             {
                 case 1:
                     Thread.Sleep(1000);
-                    Console.WriteLine($"{name} choose to Attack!");
-                    option = 0;
+                    actions chosen1= actions.Attack;
+                    Console.WriteLine($"{name} choose to {chosen1}!");
                     return 1;
                 case 2:
                     Thread.Sleep(1000);
-                    Console.WriteLine($"{name} choose to Block!");
-                    option = 0;
+                    actions chosen2 = actions.Block;
+                    Console.WriteLine($"{name} choose to {chosen2}!");
                     return 2;
             }
         return option = 0;
     }
 
-    public static void GameIsOn(Character player, Character dragon)
+    public static void GameIsOn(Character person1, Character person2, float bonusDamage)
     {
         int turn = 0;
         int move1 = 0;
         int move2 = 0;
         int option = 0;
-        while (true)
+        while (person1.Health >= 0 && person2.Health >= 0)
         {
             turn++;
             if (turn % 2 != 0)
             {
                 Thread.Sleep(1000);
                 Console.Write(
-                    $"{player.Name}, your turn!");
-                move1 = Fight.MakeATurn(player.Name, option, false);
+                    $"{person1.Name}, your turn!");
+                move1 = MakeATurn(person1.Name, option, false);
             }
             else if (turn % 2 == 0)
             {
-                option = Functions.GetRandomNumber(1, 2 + 1);
-                Thread.Sleep(1000);
-                move2 = Fight.MakeATurn(dragon.Name, option, true);
+                move2 = MakeATurn(person2.Name, Functions.GetRandomNumber(1, 3), true);
             }
-            Battle(player, dragon, move1, move2);
+            Battle(person1, person2, move1, move2, bonusDamage);
         }
     }
+
+    protected static void Attack(Character person1, Character person2, float bonusDamage)
+    {
+        int chanceToMiss = person2.Evasion;
+        int hit = Functions.GetRandomNumber(1, 100 + 1);
+        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!");
+        if (hit >= chanceToMiss)
+        {
+            person1.Damage = Functions.GetRandomNumber(5, 10);
+            float damage = person1.Damage * bonusDamage - person2.Armor;
+            if (damage < 0)
+            {
+                Console.WriteLine($"Не пробил!");
+                damage = 0;
+            }
+
+            person2.Health = person2.Health - damage;
+            Console.WriteLine($"{person2.Name} has been hit and recieved {damage}!");
+        }
+        else
+        {
+            Console.WriteLine($"{person1.Name} missed!");
+        }
+    }
+    
+    //TODO вынести в отдельный метод расчет вероятности попадания ударом, избавиться от "магических" чисел. На этой основе посчитать логику
+
+    protected static void Block(Character person1, Character person2, float bonusDamage)
+    {
+        int chanceToMiss = person2.Evasion;
+        int hit = Functions.GetRandomNumber(1, 100 + 1);
+        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!");
+        if (hit >= chanceToMiss)
+        {
+            person2.Damage = Functions.GetRandomNumber(5, 10);
+            float damage = person2.Damage * bonusDamage - person1.Armor * 4;
+            if (damage < 0)
+            {
+                Console.WriteLine($"Не пробил!");
+                damage = 0;
+            }
+            person1.Health = person1.Health - damage;
+            Console.WriteLine($"{person1.Name} has been hit and recieved {damage}!");
+        }
+        else
+        {
+            Console.WriteLine($"{person1.Name} missed!");
+        }
+    }
+
 }

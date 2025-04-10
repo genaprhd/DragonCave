@@ -4,14 +4,15 @@ public string Name { get; set; }
 public float Health { get; set; }
 public float Damage { get; set; }
 public float Armor { get; set; }
-public const int Evasion = 17;
+public int Evasion { get; }
 
-    public Character(string name, float health, float damage, float armor)
+    public Character(string name, float health, float damage, float armor, int evasion)
     {
         Name = name; 
         Health = health;
         Damage = damage;
         Armor = armor;
+        Evasion = evasion;
     }
 
     public Character()
@@ -27,7 +28,7 @@ class Player : Character
         
     }
     public Player(string name, float health, float damage, float armor) : base(name,
-        health, damage, armor)
+        health, damage, armor, 17)
     {
 
     }
@@ -43,13 +44,15 @@ class Dragon : Character
     
     protected bool isBot { get; } = true;
 
-    public Dragon(string name, float health, float damage, float armor, bool isBot) : base(name, health, damage, armor)
+    public Dragon(string name, float health, float damage, float armor, bool isBot) : base(name, health, damage, armor, evasion: 17)
     {
         
     }
 }
 
-public class Action
+public enum actions
 {
-    public string action { get; set; }
+    Attack,
+    Block,
+    Missed
 }

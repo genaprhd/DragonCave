@@ -4,7 +4,7 @@ public class Functions
 {
     public static float GetCharacterHealth()
     {
-        float health = 0.0f;
+        float health;
         while (true)
         {
             if (float.TryParse(Console.ReadLine(), out health) && health > 0)
@@ -14,10 +14,6 @@ public class Functions
         }
     }
 
-    public static float ChangeCharacterHealth(Character character)
-    {
-        return 0;
-    }
     public static int GetOption()
     {
         int option = 0;
@@ -65,9 +61,4 @@ public class Functions
                 max);
         }
     }
-    
-    public static float HealthChange(float health, int damage)
-    {
-        return 0;
-    } 
 }
