@@ -9,11 +9,11 @@ public class Fight
             Attack(person1, person2, bonusDamage);
             if (move2 == 1)
             {
-                Attack(person2, person1, bonusDamage = 0);
+                Attack(person2, person1, 4f);
             }
             else
             {
-                Block(person2, person1, bonusDamage = 0);
+                Block(person2, person1, 4f);
             }
         }
         else if (move1 == 2)
@@ -21,14 +21,14 @@ public class Fight
             Block(person1, person2, bonusDamage);
             if (move2 == 1)
             {
-                Attack(person2, person1, bonusDamage = 0);
+                Attack(person2, person1, 4f);
             }
             else
             {
-                Block(person2, person1, bonusDamage = 0);
+                Block(person2, person1, 4f);
             }
         }
-        Console.WriteLine($"{person1.Health}HP - new health. {person2.Health} HP");
+        Console.WriteLine($"{person1.Health}HP - new health. {person2.Health} HP\n");
     }
 
     private static int MakeATurn(string name, int option, bool isBot)
@@ -45,12 +45,12 @@ public class Fight
                 case 1:
                     Thread.Sleep(1000);
                     actions chosen1= actions.Attack;
-                    Console.WriteLine($"{name} choose to {chosen1}!");
+                    Console.WriteLine($"{name} choose to {chosen1}!\n");
                     return 1;
                 case 2:
                     Thread.Sleep(1000);
                     actions chosen2 = actions.Block;
-                    Console.WriteLine($"{name} choose to {chosen2}!");
+                    Console.WriteLine($"{name} choose to {chosen2}!\n");
                     return 2;
             }
         return option = 0;
@@ -84,7 +84,7 @@ public class Fight
     {
         int chanceToMiss = person2.Evasion;
         int hit = Functions.GetRandomNumber(1, 100 + 1);
-        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!");
+        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!\n");
         if (hit >= chanceToMiss)
         {
             person1.Damage = Functions.GetRandomNumber(5, 10);
@@ -96,11 +96,11 @@ public class Fight
             }
 
             person2.Health = person2.Health - damage;
-            Console.WriteLine($"{person2.Name} has been hit and recieved {damage}!");
+            Console.WriteLine($"{person2.Name} has been hit and recieved {damage}!\n");
         }
         else
         {
-            Console.WriteLine($"{person1.Name} missed!");
+            Console.WriteLine($"{person1.Name} missed!\n");
         }
     }
     
@@ -110,7 +110,7 @@ public class Fight
     {
         int chanceToMiss = person2.Evasion;
         int hit = Functions.GetRandomNumber(1, 100 + 1);
-        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!");
+        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!\n");
         if (hit >= chanceToMiss)
         {
             person2.Damage = Functions.GetRandomNumber(5, 10);
@@ -121,11 +121,11 @@ public class Fight
                 damage = 0;
             }
             person1.Health = person1.Health - damage;
-            Console.WriteLine($"{person1.Name} has been hit and recieved {damage}!");
+            Console.WriteLine($"{person1.Name} has been hit and recieved {damage}!\n");
         }
         else
         {
-            Console.WriteLine($"{person1.Name} missed!");
+            Console.WriteLine($"{person1.Name} missed!\n");
         }
     }
 
