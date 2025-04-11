@@ -34,7 +34,7 @@ public class DiceRollGame
         else if (playerScore < dragonScore && summ >= 10)
         {
             Thread.Sleep(2000);
-            Console.WriteLine($"Eto Razjeb, your dice ({playerScore}) is smaller then Needed ({dragonScore}) by {summ}!\n You have been crushed in the dice game. Recieved damage increases x2!");
+            Console.WriteLine($"Eto Razjeb, your dice ({playerScore}) is smaller then Needed ({dragonScore}) by {summ}!\n You have been crushed in the dice game. Damage decreased x2!");
             return 0.5f;
         }
         else if (playerScore > dragonScore)

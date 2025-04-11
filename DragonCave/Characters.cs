@@ -4,7 +4,7 @@ public string Name { get; set; }
 public float Health { get; set; }
 public float Damage { get; set; }
 public float Armor { get; set; }
-public int Evasion { get; }
+public int Evasion { get; set; }
 
     public Character(string name, float health, float damage, float armor, int evasion)
     {
@@ -23,10 +23,7 @@ public int Evasion { get; }
 
 class Player : Character
 {
-    public Player() 
-    {
-        
-    }
+
     public Player(string name, float health, float damage, float armor) : base(name,
         health, damage, armor, 17)
     {

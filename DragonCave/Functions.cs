@@ -4,6 +4,8 @@ public class Functions
 {
     public static float GetCharacterHealth()
     {
+        Console.WriteLine("How strong you think you are? Insert your HP amount");
+        
         float health;
         while (true)
         {
@@ -31,7 +33,7 @@ public class Functions
     {
         int tryNum = 0;
         string name = "";
-
+        Console.WriteLine("Name yourself, mortal.");
         while (true) 
         {
             tryNum++; 

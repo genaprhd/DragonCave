@@ -2,33 +2,32 @@ namespace DragonCave;
 
 public class Fight
 {
-    private static void Battle(Character person1, Character person2, int move1, int move2, float bonusDamage)
+    private static void Battle(Character person, Character mob, int move1, int move2, float bonusDamage)
     {
         if (move1 == 1)
         {
-            Attack(person1, person2, bonusDamage);
             if (move2 == 1)
             {
-                Attack(person2, person1, 4f);
+                Attack(person, mob, bonusDamage);
             }
             else
             {
-                Block(person2, person1, 4f);
+                Block(mob, person, 4f);
             }
         }
         else if (move1 == 2)
         {
-            Block(person1, person2, bonusDamage);
             if (move2 == 1)
             {
-                Attack(person2, person1, 4f);
+                Attack(mob, person, 4f);
             }
             else
             {
-                Block(person2, person1, 4f);
+                Block(mob, person, bonusDamage);
             }
         }
-        Console.WriteLine($"{person1.Health}HP - new health. {person2.Health} HP\n");
+
+        Console.WriteLine($"{person.Health}HP - new health. {mob.Health} HP\n");
     }
 
     private static int MakeATurn(string name, int option, bool isBot)
@@ -36,7 +35,7 @@ public class Fight
         if (!isBot)
         {
             Thread.Sleep(2000);
-            Console.WriteLine(" Make your move!\n1. Attack (5-15 damage)\n2. Block (3-5 damage)\nYour answer: ");
+            Console.WriteLine(" Make your move!\n1. Attack (5-15 damage)\n2. Block (3-5 damage)\nYour answer: "); //TODO добавить подстановку значений возможного урона
             option = Functions.GetOption();
         }
 
@@ -56,47 +55,63 @@ public class Fight
         return option = 0;
     }
 
-    public static void GameIsOn(Character person1, Character person2, float bonusDamage)
+    public static void GameIsOn(Character person, Character mob, float bonusDamage)
     {
         int turn = 0;
         int move1 = 0;
         int move2 = 0;
         int option = 0;
-        while (person1.Health >= 0 && person2.Health >= 0)
+        while (person.Health >= 0 && mob.Health >= 0)
         {
+            move1 = move2 = 0;
             turn++;
+            Console.WriteLine($"Turn №{turn}!");
             if (turn % 2 != 0)
             {
                 Thread.Sleep(1000);
                 Console.Write(
-                    $"{person1.Name}, your turn!");
-                move1 = MakeATurn(person1.Name, option, false);
+                    $"{person.Name}, your turn!");
+                move1 = MakeATurn(person.Name, option, false);
+                move2 = MakeATurn(mob.Name, Functions.GetRandomNumber(1,3), true);
             }
             else if (turn % 2 == 0)
             {
-                move2 = MakeATurn(person2.Name, Functions.GetRandomNumber(1, 3), true);
+                move1 = MakeATurn(mob.Name, Functions.GetRandomNumber(1, 3), true);
+                move2 = MakeATurn(person.Name, option, false);
             }
-            Battle(person1, person2, move1, move2, bonusDamage);
+            Battle(person, mob, move1, move2, bonusDamage);
         }
+        
     }
 
+    private static bool hit(Character person)
+    {
+        int MIN_CHANCE = 1;
+        int MAX_CHANCE = 101;
+        int chanceToMiss = person.Evasion;
+        int chanceToHit = Functions.GetRandomNumber(MIN_CHANCE, MAX_CHANCE);
+
+        if (chanceToHit >= chanceToMiss)
+        {
+            return true;
+        }
+        return false;
+    } 
+    
     protected static void Attack(Character person1, Character person2, float bonusDamage)
     {
-        int chanceToMiss = person2.Evasion;
-        int hit = Functions.GetRandomNumber(1, 100 + 1);
-        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!\n");
-        if (hit >= chanceToMiss)
+        if (hit(person1))
         {
-            person1.Damage = Functions.GetRandomNumber(5, 10);
+            person1.Damage = Functions.GetRandomNumber(5, 15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
             float damage = person1.Damage * bonusDamage - person2.Armor;
             if (damage < 0)
             {
                 Console.WriteLine($"Не пробил!");
                 damage = 0;
             }
-
-            person2.Health = person2.Health - damage;
-            Console.WriteLine($"{person2.Name} has been hit and recieved {damage}!\n");
+            float oldHealth = person2.Health;
+            person2.Health -= damage;
+            Console.WriteLine($"{person2.Name} has been hit and recieved {damage} damage!\n ({oldHealth}) ---> ({person2.Health})");
         }
         else
         {
@@ -104,24 +119,22 @@ public class Fight
         }
     }
     
-    //TODO вынести в отдельный метод расчет вероятности попадания ударом, избавиться от "магических" чисел. На этой основе посчитать логику
+    //TODO избавиться от "магических" чисел
 
     protected static void Block(Character person1, Character person2, float bonusDamage)
     {
-        int chanceToMiss = person2.Evasion;
-        int hit = Functions.GetRandomNumber(1, 100 + 1);
-        Console.WriteLine($"{person1.Name} chance to hit {hit}, Chance to miss is {chanceToMiss}!\n");
-        if (hit >= chanceToMiss)
+        if (hit(person1))
         {
-            person2.Damage = Functions.GetRandomNumber(5, 10);
-            float damage = person2.Damage * bonusDamage - person1.Armor * 4;
+            Console.WriteLine($"{person1.Name} choose to block! Armor increased x4!");
+            float damage = Functions.GetRandomNumber(5, 10) * bonusDamage - person1.Armor * 4;
             if (damage < 0)
             {
                 Console.WriteLine($"Не пробил!");
                 damage = 0;
             }
-            person1.Health = person1.Health - damage;
-            Console.WriteLine($"{person1.Name} has been hit and recieved {damage}!\n");
+            float oldHealth = person2.Health;
+            person1.Health -= damage;
+            Console.WriteLine($"{person2.Name} has been hit and received {damage} damage!\n ({oldHealth}) ---> ({person2.Health})");
         }
         else
         {
