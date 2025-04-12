@@ -1,34 +1,46 @@
-public class Character
+namespace DragonCave;
+public class Character(
+    string name,
+    float health,
+    float damage,
+    float armor,
+    int evasion,
+    bool isBot,
+    Statuses status,
+    int experience,
+    int mana,
+    Rarities rarity)
 {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public float Damage { get; set; }
-    public float Armor { get; set; }
-    public int Evasion { get; set; }
-    public bool IsBot { get; set; }
-    public statuses Status { get; set; }
-    public Character(string name, float health, float damage, float armor, int evasion, bool isBot, statuses status)
-    {
-        Name = name;
-        Health = health;
-        Damage = damage;
-        Armor = armor;
-        Evasion = evasion;
-        IsBot = isBot;
-        Status = status;
-    }
+    public string Name { get; set; } = name;
+    public float Health { get; set; } = health;
+    public float Damage { get; set; } = damage;
+    public float Armor { get; set; } = armor;
+    public int Evasion { get; set; } = evasion;
+    public bool IsBot { get; set; } = isBot;
+    public Statuses Status { get; set; } = status;
+    public int Experience { get; set; } = experience;
+    public int Mana { get; set; } = mana;
+    public Rarities Rarity { get; } = rarity;
 }
-public enum actions
+
+public enum Rarities
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
+public enum Actions
 {
     Attack,
     Block
 }
-
-public enum statuses
+public enum Statuses
 {
     Base,
     Blocked,
     Stunned,
     Poisoned,
-    onFire
+    OnFire
 }

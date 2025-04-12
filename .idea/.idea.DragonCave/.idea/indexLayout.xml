@@ -3,6 +3,8 @@
   <component name="UserContentModel">
     <attachedFolders />
     <explicitIncludes />
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>DragonCave/DB/Characters.db</Path>
+    </explicitExcludes>
   </component>
 </project>

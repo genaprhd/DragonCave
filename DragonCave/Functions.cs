@@ -5,7 +5,6 @@ public class Functions
     public static float GetCharacterHealth()
     {
         Console.WriteLine("How strong you think you are? Insert your HP amount");
-        
         float health;
         while (true)
         {
@@ -15,7 +14,6 @@ public class Functions
                 Console.WriteLine("Incorrect input! Try again!");
         }
     }
-
     public static int GetOption()
     {
         int option = 0;
@@ -34,33 +32,34 @@ public class Functions
         int tryNum = 0;
         string name = "";
         Console.WriteLine("Name yourself, mortal.");
-        while (true) 
+        while (true)
         {
-            tryNum++; 
-            
+            tryNum++;
             if (tryNum > 1)
             {
                 Console.WriteLine("Give me correct Name!");
             }
 
             name = Console.ReadLine();
-
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
             }
         }
     }
-    
     private static readonly Random Getrandom = new Random();
-
-    public static int GetRandomNumber(int min,
-        int max)
+    public static int GetRandomNumber(int min, int max)
     {
         lock (Getrandom)
         {
-            return Getrandom.Next(min,
-                max);
+            return Getrandom.Next(min, max);
+        }
+    }
+    public static int Damage(int min, int max)
+    {
+        lock (Getrandom)
+        {
+            return Getrandom.Next(min, max);
         }
     }
 }

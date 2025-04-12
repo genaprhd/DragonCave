@@ -1,8 +1,8 @@
 ﻿namespace DragonCave
 {
-    class Launcher
+    internal abstract class Launcher
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             Game.StartGame();
         }
