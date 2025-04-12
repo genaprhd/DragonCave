@@ -6,16 +6,15 @@ public class Game
     {
         
         Console.WriteLine("Welcome to the Dragon cave!");
-        Character player = new Player(Functions.GetCharacterName(),Functions.GetCharacterHealth(), 0f, 0f);
+        Character player = new Character(Functions.GetCharacterName(),Functions.GetCharacterHealth(), 5.0f, 2.0f, 17, false, statuses.Base);
         
         Console.WriteLine($"So, {player.Name}, you think {player.Health}HP is enough to beat the Dragon?");
         
-        Character dragon = new Dragon("Erandol", 150.0f,3.0f, 5.0f, true);
+        Character dragon = new Character("Erandol", 150.0f,10.0f, 5.0f, 17, true, statuses.Base);
        
         Thread.Sleep(1000);
         Console.WriteLine($"The Dragon waits, it has {dragon.Health}HP. Throw the dice! You have 3 tries.");
-        float bonusDamage = DiceRollGame.Roll();
-        
-        Fight.GameIsOn(player, dragon, bonusDamage);
+        player.Damage *= DiceRollGame.Roll();
+        Fight.GameIsOn(player, dragon);
     }
 }
