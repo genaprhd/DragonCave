@@ -8,7 +8,7 @@ public class PlayerProfileCreation
     {
         Console.WriteLine("Lets create your character!");
 
-        var baseCharacter = LoadPrefab("DragonCave/DB/Creatures.json");
+        var baseCharacter = LoadPrefab("/Users/genaprhd/RiderProjects/DragonCave/DragonCave/DB/Creatures.json");
         string Name = baseCharacter.Name;
         string CharRace = baseCharacter.CharRace;
         var Player = new Character.CharacterBuilder(Name, CharRace)

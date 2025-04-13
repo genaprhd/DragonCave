@@ -6,7 +6,7 @@ public class Fight
     {
         int turn = 0;
         int option = 0;
-        while (person.Health >= 0 && mob.Health >= 0)
+        while (person.CombatStats.Health >= 0 && mob.CombatStats.Health >= 0)
         {
             int move1, move2 = 0;
             turn++;
@@ -62,7 +62,7 @@ public class Fight
         {
             Thread.Sleep(2000);
             Console.WriteLine(
-                $"Make your move!\n1. Attack ({person.Damage}HP)\n2. Block (-{4 * person.Armor} damage)\nYour answer: ");
+                $"Make your move!\n1. Attack ({person.CombatStats.MaxDamage}HP)\n2. Block (-{4 * person.CombatStats.Evasion} damage)\nYour answer: ");
             option = Functions.GetOption();
         }
 
@@ -85,7 +85,7 @@ public class Fight
     {
         int MIN_CHANCE = 1;
         int MAX_CHANCE = 101;
-        int chanceToMiss = person.Evasion;
+        int chanceToMiss = person.CombatStats.Evasion;
         int chanceToHit = Functions.GetRandomNumber(MIN_CHANCE, MAX_CHANCE);
 
         if (chanceToHit >= chanceToMiss)
@@ -111,23 +111,23 @@ public class Fight
     }
     private static void DealDamage(Character person1, Character person2)
     {
-        person1.Damage = Functions.Damage(5,15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
+        person1.CombatStats.Evasion = Functions.Damage(5,15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
         float damage = 0;
         if (person2.Status == Statuses.Blocked)
         {
-            damage = person1.Damage - 4 * person2.Armor;
+            damage = person1.CombatStats.MaxDamage - 4 * person2.CombatStats.Evasion;
         }
         else
         {
-            damage = person1.Damage - person2.Armor;
+            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Evasion;
         }
         if (damage <= 0)
         {
             Console.WriteLine($"{person1.Name} не пробил!");
             damage = 0;
         }
-        float oldHealth = person2.Health;
-        person2.Health -= damage;
-        Console.WriteLine($"{person2.Name} has been hit and received {damage} damage!\n ({oldHealth})HP ---> ({person2.Health})HP");
+        float oldHealth = person2.CombatStats.Health;
+        person2.CombatStats.Health -= damage;
+        Console.WriteLine($"{person2.Name} has been hit and received {damage} damage!\n ({oldHealth})HP ---> ({person2.CombatStats.Health})HP");
     }
 }
