@@ -2,11 +2,11 @@ namespace DragonCave;
 
 public class DiceRollGame
 {
+    //TODO класс должен возвращать только значение касающееся победы, поражения или Разгрома. Сооответсвенно надо переписать возвращаемые значения
     public static float Roll()
     {
         float damage = 1;
-        int neededNum = Functions.GetRandomNumber(1,
-            20+1);
+        int neededNum = Functions.GetRandomNumber(1, 20+1);
         Console.WriteLine($"Your needed number is {neededNum}");
         int diceRoll = 1;
         while (diceRoll <= 3 && (damage != 0.5f && damage != 2))

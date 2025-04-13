@@ -1,41 +1,23 @@
-using DragonCave.DB;
-
+using Newtonsoft.Json;
 namespace DragonCave;
 
 public class Game
 {
     public static void StartGame()
     {
-        DatabaseInitializer.InitializeDatabase();
-        
         Console.WriteLine("Welcome to the Dragon cave!");
-        Character player = new Character(Functions.GetCharacterName(),
-            Functions.GetCharacterHealth(),
-            5.0f,
-            2.0f,
-            17,
-            false,
-            Statuses.Base,
-            100,
-            100,
-            Rarities.Common);
+        Console.WriteLine("Starting new game...");
         
-        Console.WriteLine($"So, {player.Name}, you think {player.Health}HP is enough to beat the Dragon?");
+        var Player = PlayerProfileCreation.CreateProfile();
         
-        Character dragon = new Character("Erandol",
-            150.0f,
-            10.0f,
-            5.0f,
-            17,
-            true,
-            Statuses.Base,
-            10000,
-            1000,
-            Rarities.Legendary);
+        Console.WriteLine($"So, {Player.Name}, you think {Player.CombatStats.Health}HP is enough to beat the Dragon?");
+
+        var Dragon = new Character.CharacterBuilder("Erandol", "Dragon");
        
         Thread.Sleep(1000);
-        Console.WriteLine($"The Dragon waits, it has {dragon.Health}HP. Throw the dice! You have 3 tries.");
-        player.Damage *= DiceRollGame.Roll();
-        Fight.GameIsOn(player, dragon);
+        Console.WriteLine($"The Dragon waits, it has {Dragon.CombatStats.Health}HP. Throw the dice! You have 3 tries.");
+        Player.CombatStats.MinDamage *= DiceRollGame.Roll();
+        Player.CombatStats.MaxDamage *= DiceRollGame.Roll();
+        Fight.GameIsOn(Player, Dragon);
     }
 }

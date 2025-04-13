@@ -27,7 +27,7 @@ public class Fight
             Battle(person, mob, move1, move2);
         }
     }
-    private static void Battle(Character person, Character mob, int move1, int move2)
+    internal static void Battle(Character person, Character mob, int move1, int move2)
     {
         if (move1 == 1)
         {
@@ -56,7 +56,7 @@ public class Fight
             }
         }
     }
-    private static int MakeATurn(Character person, int option)
+    internal static int MakeATurn(Character person, int option)
     {
         if (!person.IsBot)
         {
@@ -81,7 +81,7 @@ public class Fight
             }
         return option = 0;
     }
-    private static bool hit(Character person)
+    internal static bool hit(Character person)
     {
         int MIN_CHANCE = 1;
         int MAX_CHANCE = 101;
@@ -94,7 +94,7 @@ public class Fight
         }
         return false;
     } 
-    protected static void Attack(Character person1, Character person2)
+    internal static void Attack(Character person1, Character person2)
     {
         if (hit(person1) && person2.Status != Statuses.Blocked)
         {

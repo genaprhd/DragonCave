@@ -1,0 +1,45 @@
+[
+  {
+    "Name": "Noname",
+    "Race": "None",
+    "Stats":{
+
+      "Strength": 10,
+      "Agility" : 10,
+      "Intelligence": 10
+    },
+    "CombatStats": {
+      "Health": 100,
+      "Mana": 100,
+      "Damage_min": 5,
+      "Damage_max": 10,
+      "Armor": 10,
+      "Evasion": 5
+    },
+    "isBot": false,
+    "Status": "None",
+    "Experience": 1,
+    "Rarity": "Common"
+  },
+  {
+    "Name": "Erandol",
+    "Class": "Dragon",
+    "Stats":{
+      "Strength": 100,
+      "Agility" : 100,
+      "Intelligence": 100
+    },
+    "CombatStats": {
+      "Health": 150,
+      "Mana": 100,
+      "Damage_min": 20,
+      "Damage_max": 30,
+      "Armor": 15,
+      "Evasion": 17
+    },
+    "isBot": true,
+    "Status": "None",
+    "Experience": 10000,
+    "Rarity": "Common"
+  }
+]

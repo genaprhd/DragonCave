@@ -27,26 +27,7 @@ public class Functions
             }
         }
     }
-    public static string GetCharacterName()
-    {
-        int tryNum = 0;
-        string name = "";
-        Console.WriteLine("Name yourself, mortal.");
-        while (true)
-        {
-            tryNum++;
-            if (tryNum > 1)
-            {
-                Console.WriteLine("Give me correct Name!");
-            }
 
-            name = Console.ReadLine();
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
-        }
-    }
     private static readonly Random Getrandom = new Random();
     public static int GetRandomNumber(int min, int max)
     {
