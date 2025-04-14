@@ -22,8 +22,8 @@ public class DiceRollGame
 
     private static float DidIWin(int playerScore, int dragonScore)
     {
-        bool isWinner = false;
-        bool defeat = false;
+        //bool isWinner = false;
+        //bool defeat = false;
         int summ = dragonScore -  playerScore;
         if (playerScore < dragonScore && summ < 10)
         {

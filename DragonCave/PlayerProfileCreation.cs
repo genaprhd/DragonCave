@@ -8,7 +8,14 @@ public class PlayerProfileCreation
     {
         Console.WriteLine("Lets create your character!");
 
-        var baseCharacter = LoadPrefab("/Users/genaprhd/RiderProjects/DragonCave/DragonCave/DB/Creatures.json");
+        var baseCharacter = LoadPrefab("/Users/genaprhd/VSCode/DragonCave/DragonCave/DB/Creatures.json");
+
+        if (baseCharacter == null)
+        {
+            Console.WriteLine("Failed to load base character. Exiting profile creation.");
+            return null;
+        }
+
         string Name = baseCharacter.Name;
         string CharRace = baseCharacter.CharRace;
         var Player = new Character.CharacterBuilder(Name, CharRace)

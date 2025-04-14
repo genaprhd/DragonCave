@@ -23,7 +23,7 @@
   },
   {
     "Name": "Erandol",
-    "Class": "Dragon",
+    "Race": "Dragon",
     "Stats":{
       "Strength": 100,
       "Agility" : 100,
@@ -40,6 +40,6 @@
     "isBot": true,
     "Status": "None",
     "Experience": 10000,
-    "Rarity": "Common"
+    "Rarity": "Legendary"
   }
 ]
