@@ -19,7 +19,7 @@ public class Character
     public int Experience { get; set; }
     [JsonProperty("Rarity")]
     public Rarities Rarity { get; set; }
-
+    [JsonConstructor]
     private Character(CharacterBuilder builder)
     {
         Name = builder.Name;
@@ -31,7 +31,6 @@ public class Character
         Experience = builder.Experience;
         Rarity = builder.Rarity;
     }
-
     public class CharacterBuilder
     {
         public string Name { get; set; }
@@ -42,6 +41,7 @@ public class Character
         public Statuses Status { get; set; }
         public int Experience { get; set; }
         public Rarities Rarity { get; private set; }
+        [JsonConstructor]
         public CharacterBuilder(string name, string charRace)
         {
             Name = name;
@@ -133,7 +133,6 @@ public class CombatStats
     [JsonProperty("Evasion")]
     public int Evasion { get; set; }
     
-    [JsonConstructor]
     public CombatStats( float health, float mana, float minDamage, float maxDamage, int evasion)
     {
         Health = health;

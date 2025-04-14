@@ -115,7 +115,7 @@ public class Fight
         float damage = 0;
         if (person2.Status == Statuses.Blocked)
         {
-            damage = person1.CombatStats.MaxDamage - 4 * person2.CombatStats.Evasion;
+            damage = person1.CombatStats.MaxDamage - 4 * person2.CombatStats.Evasion;//Сменить на damage
         }
         else
         {
