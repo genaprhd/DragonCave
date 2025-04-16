@@ -15,7 +15,8 @@ public class PlayerProfileCreation
             Console.WriteLine("Failed to load base character. Exiting profile creation.");
             return null;
         }
-
+        Console.WriteLine($"Base character loaded: {baseCharacter.Name}, {baseCharacter.CharRace}");
+        // Create a new character using the base character's properties
         string Name = baseCharacter.Name;
         string CharRace = baseCharacter.CharRace;
         var Player = new Character.CharacterBuilder(Name, CharRace)
@@ -40,21 +41,30 @@ public class PlayerProfileCreation
 
     private static Character LoadPrefab(string filepath)
     {
+        Console.WriteLine($"Loading character from {filepath}");
         if (!File.Exists(filepath))
         {
             Console.WriteLine($"File not found: {filepath}");
             return null;
         }
-        var json = File.ReadAllText(filepath);
-        List<Character> characters = JsonConvert.DeserializeObject<List<Character>>(json);
-
-        if (characters == null || characters.Count == 0)
+        try
         {
-            Console.WriteLine("No characters found in JSON file.");
+            var json = File.ReadAllText(filepath);
+            Console.WriteLine($"Reading file: {filepath}");
+            List<Character> characters = JsonConvert.DeserializeObject<List<Character>>(json);
+                if (characters == null || characters.Count == 0)
+                    {
+                        Console.WriteLine("No characters found in JSON file.");
+                        return null;
+                    }
+        var character = characters.FirstOrDefault(c => c.Name == "Noname");
+        return character.Name == "Noname" ? character : null;
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"Error deserializing JSON: {ex.Message}");
             return null;
         }
-        var character = characters.FirstOrDefault(c => c.Name == "Noname");
-        return character;
     }
     private static string GetCharacterName()
     {

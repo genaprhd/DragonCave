@@ -11,7 +11,7 @@ public class Game
         
         var Player = PlayerProfileCreation.CreateProfile();
         
-       Console.WriteLine($"So, {Player.Name}, you think {Player.CombatStats.Health}HP is enough to beat the Dragon?");
+        Console.WriteLine($"So, {Player.Name}, you think {Player.CombatStats.Health}HP is enough to beat the Dragon?");
         var baseDragon = LoadFromDB.LoadCreature("/Users/genaprhd/VSCode/DragonCave/DragonCave/DB/Creatures.json", "Erandol");
         var Dragon = new Character.CharacterBuilder("Erandol", "Dragon")
             .WithName(baseDragon.Name)

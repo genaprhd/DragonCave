@@ -3,26 +3,25 @@ namespace DragonCave;
 
 public class Character
 {
-    [JsonProperty("Name")]
     public string Name { get; set; }
-    [JsonProperty("Race")]
     public string CharRace { get; set; }
-    [JsonProperty("Stats")]
     public Stats Stats { get; set; }
-    [JsonProperty("CombatStats")]
     public CombatStats CombatStats { get; set; }
-    [JsonProperty("isBot")]
     public bool IsBot { get; set; }
-    [JsonProperty("Status")]
     public Statuses Status { get; set; }
-    [JsonProperty("Experience")]
     public int Experience { get; set; }
-    [JsonProperty("Rarity")]
     public Rarities Rarity { get; set; }
-     [JsonConstructor]
     private Character(CharacterBuilder builder)
     {
-        Name = builder.Name;
+        if (string.IsNullOrWhiteSpace(builder.Name))
+            throw new ArgumentException("Name cannot be null or empty");
+        if (string.IsNullOrWhiteSpace(builder.CharRace))
+            throw new ArgumentException("CharRace cannot be null or empty");
+        if (builder.Stats == null)
+            throw new ArgumentNullException(nameof(builder.Stats), "Stats cannot be null");
+        if (builder.CombatStats == null)
+            throw new ArgumentNullException(nameof(builder.CombatStats), "CombatStats cannot be null");
+        Name = builder.Name;       
         CharRace = builder.CharRace;
         Stats = builder.Stats;
         CombatStats = builder.CombatStats;
@@ -30,7 +29,7 @@ public class Character
         Status = builder.Status;
         Experience = builder.Experience;
         Rarity = builder.Rarity;
-    }   
+    }
     public class CharacterBuilder
     {
         public string Name { get; set; }
@@ -47,6 +46,8 @@ public class Character
             Name = name;
             CharRace = charRace;
             Status = Statuses.None;
+            Stats = new Stats(0, 0, 0);
+            CombatStats = new CombatStats(0, 0, 0, 0, 0);
             Rarity = Rarities.Common;
             Experience = 1;
             IsBot = false;
@@ -100,13 +101,9 @@ public class Character
 }
 public class Stats
 {
-    [JsonProperty("Strength")]
     public int Strength { get; set; }
-    [JsonProperty("Agility")]
     public int Agility { get; set; }
-    [JsonProperty("Intelligence")]
     public int Intelligence { get; set; }
-    [JsonConstructor]
     public Stats( int strength, int agility, int intelligence)
     {
         Strength = strength;
@@ -116,15 +113,10 @@ public class Stats
 }
 public class CombatStats
 {
-    [JsonProperty("Health")]
     public float Health { get; set; }
-    [JsonProperty("Mana")]
     public float Mana { get; set; }
-    [JsonProperty("Damage_min")]  
     public float MinDamage { get; set; }
-    [JsonProperty("Damage_max")]
     public float MaxDamage { get; set; }
-    [JsonProperty("Evasion")]
     public int Evasion { get; set; }
     
     public CombatStats( float health, float mana, float minDamage, float maxDamage, int evasion)
