@@ -2,7 +2,6 @@ namespace DragonCave;
 
 public class DiceRollGame
 {
-    //TODO класс должен возвращать только значение касающееся победы, поражения или Разгрома. Сооответсвенно надо переписать возвращаемые значения
     public static float Roll()
     {
         float damage = 1;
@@ -22,8 +21,6 @@ public class DiceRollGame
 
     private static float DidIWin(int playerScore, int dragonScore)
     {
-        //bool isWinner = false;
-        //bool defeat = false;
         int summ = dragonScore -  playerScore;
         if (playerScore < dragonScore && summ < 10)
         {

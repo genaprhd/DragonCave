@@ -13,4 +13,10 @@
       <PackageReference Include="SQLite" Version="3.13.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="DB/Creatures.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    
 </Project>

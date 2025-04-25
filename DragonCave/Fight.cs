@@ -38,7 +38,7 @@ public class Fight
             }
             else
             {
-                mob.Status = Statuses.Blocked;
+                mob.Statuses = Statuses.Blocked;
                 Attack(person, mob);
             }
         }
@@ -51,7 +51,7 @@ public class Fight
             }
             else
             {
-                person.Status = Statuses.Blocked;
+                person.Statuses = Statuses.Blocked;
                 Attack(mob, person);
             }
         }
@@ -96,11 +96,11 @@ public class Fight
     } 
     internal static void Attack(Character person1, Character person2)
     {
-        if (hit(person1) && person2.Status != Statuses.Blocked)
+        if (hit(person1) && person2.Statuses != Statuses.Blocked)
         {
             DealDamage(person1, person2);
         }
-        else if (hit(person1) && person2.Status == Statuses.Blocked)
+        else if (hit(person1) && person2.Statuses == Statuses.Blocked)
         {
             DealDamage(person1, person2);
         }
@@ -113,7 +113,7 @@ public class Fight
     {
         person1.CombatStats.Evasion = Functions.Damage(5,15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
         float damage = 0;
-        if (person2.Status == Statuses.Blocked)
+        if (person2.Statuses == Statuses.Blocked)
         {
             damage = person1.CombatStats.MaxDamage - 4 * person2.CombatStats.Evasion;//Сменить на damage
         }
