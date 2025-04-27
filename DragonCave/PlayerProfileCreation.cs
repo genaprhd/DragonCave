@@ -1,6 +1,5 @@
-using System.ComponentModel.Design;
+using System.Diagnostics;
 using DragonCave.DB;
-using Newtonsoft.Json;
 
 namespace DragonCave;
 
@@ -31,7 +30,6 @@ public class PlayerProfileCreation
         Console.WriteLine(Player.ToString());
         return Player;
     }
-
     private static string GetCharacterName()
     {
         int tryNum = 0;
@@ -45,15 +43,27 @@ public class PlayerProfileCreation
                 Console.WriteLine("Give me correct Name!");
             }
             name = Console.ReadLine();
-            bool correct = Functions.InputConfirm($"You have chosen: {name}, confirm? (y/n)");
-            if (!string.IsNullOrEmpty(name) && correct && name.Length > 2 && name.Length < 20)
+            if (string.IsNullOrEmpty(name) || name.Length < 2 || name.Length > 20)
             {
-                return name;
-            }
-            else {
+                Console.WriteLine("Name must be between 2 and 20 characters long.");
+                Console.WriteLine("Try again.");
                 return GetCharacterName();
             }
-            
+            else {
+                bool YesOrNo = Functions.InputConfirm($"You have chosen: {name}, confirm?");
+                if (YesOrNo == false)
+                {
+                    Console.WriteLine("Choose again.");
+                    return GetCharacterName();
+                }
+                else
+                {
+                Console.WriteLine("Success! Now, lets proceed to Race selection.");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(intercept: true);
+                return name;
+                }
+            }
         }
     }
     static int selectedIndex = 0;
@@ -62,35 +72,21 @@ public class PlayerProfileCreation
         string[] MenuItems = Functions.GetEnumValues<PlayerRaces>();
         Console.CursorVisible = false;
         selectedIndex = Menu.GetOption(MenuItems,selectedIndex);
-        switch (selectedIndex)
+        PlayerRaces playerRace = (PlayerRaces)selectedIndex;
+        bool confirm = Functions
+            .InputConfirm($"You have chosen: {playerRace}, confirm?");
+        if (confirm)
         {
-            case 0:
-                bool confirm = Functions
-                    .InputConfirm($"You have chosen: {PlayerRaces.Human}, confirm? (y/n)");
-                if (confirm)
-                {
-                    PlayerRaces playerRace = PlayerRaces.Human;
-                    Console.WriteLine($"You have chosen: {playerRace}");
-                    return playerRace.ToString();
-                }
-                else
-                {
-                    Console.WriteLine("Choose again.");
-                    return GetCharacterRace();
-                }
-            case 1:
-                Console.WriteLine("You have chosen: Elf");
-                break;
-            case 2:
-                Console.WriteLine("You have chosen: Dwarf");
-                break;
-            case 3:
-                Console.WriteLine("You have chosen: Orc");
-                break;
+            Console.WriteLine($"Success! You have chosen: {playerRace}.");
+            return playerRace.ToString();
         }
-        return MenuItems[selectedIndex];
+        else
+        {
+            Console.WriteLine("Choose again.");
+            return GetCharacterRace();
+        }
     }
-    
+
     private static Stats GetPlayerStats()
     {
         Stats playerStats = new Stats(10, 10, 10);

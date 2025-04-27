@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 
 namespace DragonCave;
@@ -70,14 +69,18 @@ public class Functions
         while (true)
         {
             Console.WriteLine(message);
-            string input = Console.ReadLine();
-            if (input?.ToLower() == "y" && input?.ToLower() != "n" && input != null)
-                return input?.ToLower() == "y";
-            else if (input?.ToLower() == "n")
+            if (ConsoleKey.Enter == Console.ReadKey(true).Key)
+            {
+                return true;
+            }
+            else if (ConsoleKey.Escape == Console.ReadKey(true).Key)
             {
                 return false;
             }
-                Console.WriteLine("Invalid input! Please enter 'y' or 'n'.");
+            else
+            {
+                Console.WriteLine("Invalid input! Please press 'Enter' or 'Escape'.");
+            }
         }
     }
 }

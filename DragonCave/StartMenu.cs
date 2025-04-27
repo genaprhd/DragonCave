@@ -9,15 +9,25 @@ public class StartMenu
         "Выход"
     };
     static int selectedIndex = 0;
-    public static void StartScreen()
+    public static void Introduction()
     {
-        Console.WriteLine("Добро пожаловать в DragonCave!\n");
+        Console.Clear();
+        Console.WriteLine("Добро пожаловать в Dragon Cave!");
+        Console.WriteLine("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.");
+        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+        Console.ReadKey(intercept: true);
+        StartScreen();
+    }
+    static void StartScreen()
+    {   
+        Console.Clear();
         Console.CursorVisible = false;
         while (true)
         {
             selectedIndex = Menu.GetOption(MenuItems, selectedIndex);
                 switch(selectedIndex){
                      case 0:
+
                         Game.StartGame();
                         break;
                     case 1:
