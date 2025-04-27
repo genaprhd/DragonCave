@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using DragonCave.DB;
 using Newtonsoft.Json;
 
@@ -26,6 +27,7 @@ public class PlayerProfileCreation
             .WithRarity(baseCharacter.Rarity)
             .Build();
         Player.CombatStats = CalcCombatStats(Player.Stats);
+        Console.Clear();
         Console.WriteLine(Player.ToString());
         return Player;
     }
@@ -33,7 +35,7 @@ public class PlayerProfileCreation
     private static string GetCharacterName()
     {
         int tryNum = 0;
-        string name = "";
+        string name;
         Console.WriteLine("Name yourself, mortal.");
         while (true)
         {
@@ -43,45 +45,51 @@ public class PlayerProfileCreation
                 Console.WriteLine("Give me correct Name!");
             }
             name = Console.ReadLine();
-            if (!string.IsNullOrEmpty(name))
+            bool correct = Functions.InputConfirm($"You have chosen: {name}, confirm? (y/n)");
+            if (!string.IsNullOrEmpty(name) && correct && name.Length > 2 && name.Length < 20)
             {
                 return name;
             }
+            else {
+                return GetCharacterName();
+            }
+            
         }
     }
+    static int selectedIndex = 0;
     private static string GetCharacterRace()
     {
-        Console.WriteLine("Choose your race:");
-
-        var races = Enum.GetValues(typeof(PlayerRaces)).Cast<PlayerRaces>().ToList();
-
-        for (int i = 1; i < races.Count; i++)
+        string[] MenuItems = Functions.GetEnumValues<PlayerRaces>();
+        Console.CursorVisible = false;
+        selectedIndex = Menu.GetOption(MenuItems,selectedIndex);
+        switch (selectedIndex)
         {
-            Console.WriteLine($"{i}: {races[i]}");
-        }
-
-        while (true)
-        {
-            Console.Write("Enter race number: ");
-            string input = Console.ReadLine();
-            if (int.TryParse(input, out int choice) && choice >= 0 && choice < races.Count)
-            {
-                PlayerRaces playerRace = (PlayerRaces)choice;
-                Console.WriteLine($"You have chosen: {playerRace}, confirm? (y/n)");
-                string confirm = Console.ReadLine();
-                if (confirm?.ToLower() == "y")
+            case 0:
+                bool confirm = Functions
+                    .InputConfirm($"You have chosen: {PlayerRaces.Human}, confirm? (y/n)");
+                if (confirm)
                 {
+                    PlayerRaces playerRace = PlayerRaces.Human;
                     Console.WriteLine($"You have chosen: {playerRace}");
                     return playerRace.ToString();
                 }
                 else
                 {
                     Console.WriteLine("Choose again.");
+                    return GetCharacterRace();
                 }
-            }
-            Console.WriteLine("Invalid input. Try again.");
+            case 1:
+                Console.WriteLine("You have chosen: Elf");
+                break;
+            case 2:
+                Console.WriteLine("You have chosen: Dwarf");
+                break;
+            case 3:
+                Console.WriteLine("You have chosen: Orc");
+                break;
         }
-    }   
+        return MenuItems[selectedIndex];
+    }
     
     private static Stats GetPlayerStats()
     {

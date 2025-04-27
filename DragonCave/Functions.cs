@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+
 namespace DragonCave;
 
 public class Functions
@@ -43,4 +47,38 @@ public class Functions
             return Getrandom.Next(min, max);
         }
     }
+
+    public static string[] GetEnumValues<T>() where T : Enum
+    {
+        var enumType = typeof(T);
+        return Enum
+            .GetNames(enumType)
+            .Select(name =>
+            {
+                var field = enumType.GetField(name);
+                if (field == null) return name;
+
+                var Display = field
+                .GetCustomAttribute<DisplayAttribute>(false);
+                return Display?.Name ?? name;
+            })
+            .ToArray();
+    }
+
+    public static bool InputConfirm(string message)
+    {   
+        while (true)
+        {
+            Console.WriteLine(message);
+            string input = Console.ReadLine();
+            if (input?.ToLower() == "y" && input?.ToLower() != "n" && input != null)
+                return input?.ToLower() == "y";
+            else if (input?.ToLower() == "n")
+            {
+                return false;
+            }
+                Console.WriteLine("Invalid input! Please enter 'y' or 'n'.");
+        }
+    }
 }
+ 

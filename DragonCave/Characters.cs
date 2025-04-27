@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DragonCave;
 
 public class Character
@@ -198,12 +200,17 @@ public enum Statuses
 }
 public enum PlayerRaces
 {
-    None,
     Human,
-    Ork,
     Elf,
-    Tyfling,
-    Gilly
+    Dwarf,
+    Orc,
+    Gnome,
+    [Display(Name = "Half-Elf")]
+    HalfElf,
+    [Display(Name = "Half-Orc")]
+    HalfOrc,
+    Tiefling
+
 }
 public enum Races
 {

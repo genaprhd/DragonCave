@@ -6,6 +6,9 @@ public class Game
 {
     public static void StartGame()
     {
+        Console.Clear();
+        Console.CursorVisible = true;
+
         Console.WriteLine("Welcome to the Dragon cave!");
         Console.WriteLine("Starting new game...");
         
