@@ -173,9 +173,9 @@ public class PlayerProfileCreation
                 return new Stats(12, 6, 2);
             case "Gnome":
                 return new Stats(9, 6, 5);
-            case "Half-Elf":
+            case "HalfElf":
                 return new Stats(5, 8, 7);
-            case "Half-Orc":
+            case "HalfOrc":
                 return new Stats(8, 7, 5);
             case "Tiefling":
                 return new Stats(6, 7, 7);

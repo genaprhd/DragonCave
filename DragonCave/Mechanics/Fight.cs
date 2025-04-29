@@ -5,81 +5,87 @@ public class Fight
     public static void GameIsOn(Character person, Character mob)
     {
         int turn = 0;
-        int option = 0;
-        while (person.CombatStats.Health >= 0 && mob.CombatStats.Health >= 0)
+        while (person.CombatStats.Health > 0 && mob.CombatStats.Health > 0)
         {
-            int move1, move2 = 0;
+            int move1, move2;
             turn++;
             Console.WriteLine($"Turn №{turn}!");
             if (turn % 2 != 0)
             {
-                Thread.Sleep(1000);
-                Console.Write(
-                    $"{person.Name}, your turn!");
-                move1 = MakeATurn(person, option);
-                move2 = MakeATurn(mob, Functions.GetRandomNumber(1,3));
+                move1 = MakeATurn(person);
+                move2 = MakeATurn(mob);
             }
             else
             {
-                move1 = MakeATurn(mob, Functions.GetRandomNumber(1, 3));
-                move2 = MakeATurn(person, option);
+                move1 = MakeATurn(mob);
+                move2 = MakeATurn(person);
             }
             Battle(person, mob, move1, move2);
         }
     }
     internal static void Battle(Character person, Character mob, int move1, int move2)
     {
-        if (move1 == 1)
+        if (move1 == 0)
         {
-            if (move2 == 1)
+            if (move2 == 0)
             {
                 Attack(person, mob);
                 Attack(mob, person);
             }
             else
             {
-                mob.Statuses = Statuses.Blocked;
+                Console.WriteLine($"{mob.Name} choose to block! \nArmor increased by 4: ({4 * mob.CombatStats.Armor})!");
+                float regularArmor = mob.CombatStats.Armor;
+                mob.CombatStats.Armor *= 4;
                 Attack(person, mob);
+                mob.CombatStats.Armor = regularArmor;
             }
         }
-        else if (move1 == 2)
+        else if (move1 == 1)
         {
-            if (move2 == 1)
+            if (move2 == 0)
             {
+                Console.WriteLine($"{person.Name} choose to block! \nArmor increased by 4: ({4 * person.CombatStats.Armor})!");
+                float regularArmor = person.CombatStats.Armor;
+                mob.CombatStats.Armor *= 4;
                 Attack(mob, person);
-                Attack(person, mob);
+                person.CombatStats.Armor = regularArmor;
             }
             else
             {
-                person.Statuses = Statuses.Blocked;
-                Attack(mob, person);
+                Console.WriteLine($"{person.Name} has been blocked and skipped his Attack!\n");
+                Console.WriteLine($"{mob.Name} has been blocked and skipped his Attack!\n");
             }
         }
     }
-    internal static int MakeATurn(Character person, int option)
+    internal static int MakeATurn(Character person)
     {
+        int option;
         if (!person.IsBot)
         {
-            Thread.Sleep(2000);
-            Console.WriteLine(
-                $" Make your move!\n1. Attack ({person.CombatStats.MaxDamage}HP)\n2. Block (-{4 * person.CombatStats.Armor} damage)\nYour answer: ");
-            option = Functions.GetOption();
+            string [] MenuItems = {
+                $"\nAttack ({person.CombatStats.MaxDamage}HP)",
+                $"Block (-{4 * person.CombatStats.Armor} damage)"
+            };
+            option = Menu.GetOption(MenuItems, 0, "Choose your action: ");
         }
-
+        else{
+            option = Functions.GetRandomNumber(1, 3);
+        }
         switch (option)
             {
                 case 1:
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                     Actions chosen1= Actions.Attack;
                     Console.WriteLine($"{person.Name} choose to {chosen1}!\n");
-                    return 1;
+                    return option;
                 case 2:
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                     Actions chosen2 = Actions.Block;
                     Console.WriteLine($"{person.Name} choose to {chosen2}!\n");
-                    return 2;
+                    return option;
             }
-        return option = 0;
+        return option;
     }
     internal static bool hit(Character person)
     {

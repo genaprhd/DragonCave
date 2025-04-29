@@ -11,7 +11,7 @@ public class StartMenu
         "Выход"
     };
     static int selectedIndex = 0;
-    static void Introduction()
+    public static void Introduction()
     {
         Console.Clear();
         Console.WriteLine("Добро пожаловать в Dragon Cave!");
@@ -22,7 +22,6 @@ public class StartMenu
     }
     static void StartScreen()
     {   
-        Introduction();
         Console.Clear();
         Console.CursorVisible = false;
         while (true)
