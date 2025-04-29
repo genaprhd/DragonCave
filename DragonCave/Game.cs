@@ -10,7 +10,7 @@ public class Game
         var Player = PlayerProfileCreation.CreateProfile();
         Console.WriteLine($"So, {Player.Name}, you think {Player.CombatStats.Health}HP is enough to beat the Dragon?");
         var path = Path.Combine(AppContext.BaseDirectory, "DB", "Creatures.json");
-        var baseDragon = LoadFromDB.LoadCreature(path, "Erandol");
+        var baseDragon = JSONBase.LoadCreature(path, "Erandol");
         var Dragon = new Character.CharacterBuilder()
             .WithName(baseDragon.Name)
             .WithCharRace(baseDragon.CharRace)

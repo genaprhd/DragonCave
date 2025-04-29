@@ -68,7 +68,7 @@ public class Functions
     {   
         while (true)
         {
-            Console.WriteLine(message);
+            Console.Write(message);
             if (ConsoleKey.Enter == Console.ReadKey(true).Key)
             {
                 return true;

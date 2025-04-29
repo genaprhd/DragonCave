@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace DragonCave;
 
@@ -103,7 +104,7 @@ Stats:      {Stats}
 Combat:     {CombatStats}   
 ";
     }
-    [Newtonsoft.Json.JsonConstructor]
+    [JsonConstructor]
     private Character(
         string name,
         string charRace,
@@ -153,9 +154,9 @@ public class CombatStats
     public float MinDamage { get; set; }
     public float MaxDamage { get; set; }
     public float Armor {get;set;}
-    public int Evasion { get; set; }
+    public float Evasion { get; set; }
     
-    public CombatStats( float health, float mana, float minDamage, float maxDamage, float armor, int evasion)
+    public CombatStats( float health, float mana, float minDamage, float maxDamage, float armor, float evasion)
     {
         Health = health;
         Mana = mana;

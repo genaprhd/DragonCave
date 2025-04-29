@@ -1,3 +1,5 @@
+using DragonCave.DB;
+
 namespace DragonCave;
 
 public class StartMenu
@@ -24,10 +26,9 @@ public class StartMenu
         Console.CursorVisible = false;
         while (true)
         {
-            selectedIndex = Menu.GetOption(MenuItems, selectedIndex);
+            selectedIndex = Menu.GetOption(MenuItems, selectedIndex, "Dragon Cave");
                 switch(selectedIndex){
                      case 0:
-
                         Game.StartGame();
                         break;
                     case 1:
@@ -35,7 +36,21 @@ public class StartMenu
                         Console.Clear();
                         Console.WriteLine("Загрузка игры...");
                         Thread.Sleep(1000);
-                        Game.StartGame();
+                        Console.Clear();
+                        int selectedIndex = Menu.GetOption(JSONBase.GetAllNames(), 0, "Выберите игрока:");
+                        if (Functions.InputConfirm($"Вы выбрали {JSONBase.GetAllNames()[selectedIndex]}. Подтвердите выбор?")){
+                            var Player = JSONBase.LoadPlayer(selectedIndex);
+                            Console.WriteLine(Player.ToString());
+                        }
+                        else{
+                            Console.WriteLine("Выбор отменен.");
+                            Thread.Sleep(1000);
+                            StartScreen();
+                        };
+                        Console.WriteLine("Загрузка завершена.");
+                        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                        Console.ReadKey(intercept: true);
+                        ExitGame();
                         break;
                     case 2:
                         Console.Clear();

@@ -62,7 +62,7 @@ public class Fight
         {
             Thread.Sleep(2000);
             Console.WriteLine(
-                $"Make your move!\n1. Attack ({person.CombatStats.MaxDamage}HP)\n2. Block (-{4 * person.CombatStats.Evasion} damage)\nYour answer: ");
+                $" Make your move!\n1. Attack ({person.CombatStats.MaxDamage}HP)\n2. Block (-{4 * person.CombatStats.Armor} damage)\nYour answer: ");
             option = Functions.GetOption();
         }
 
@@ -85,7 +85,7 @@ public class Fight
     {
         int MIN_CHANCE = 1;
         int MAX_CHANCE = 101;
-        int chanceToMiss = person.CombatStats.Evasion;
+        float chanceToMiss = person.CombatStats.Evasion;
         int chanceToHit = Functions.GetRandomNumber(MIN_CHANCE, MAX_CHANCE);
 
         if (chanceToHit >= chanceToMiss)
