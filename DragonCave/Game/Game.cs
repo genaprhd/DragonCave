@@ -22,6 +22,7 @@ public class Game
             .WithRarity(baseDragon.Rarity)
             .Build();
         Thread.Sleep(1000);
+        Dragon.CombatStats = PlayerProfileCreation.CalcCombatStats(Dragon.Stats);
         Console.WriteLine($"The Dragon waits, it has {Dragon.CombatStats.Health}HP. Throw the dice! You have 3 tries.");
         var damageMultiplier = DiceRollGame.Roll();
         Player.CombatStats.MinDamage *= damageMultiplier;

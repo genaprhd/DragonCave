@@ -117,8 +117,16 @@ public class PlayerProfileCreation
             baseStats.Intellect
         };
         int [] chosenStats = Menu.GetOptionWithSelection(MenuItems, MenuValues, "Select your stats", baseStats, 30);
+        Stats currentStats = new Stats(chosenStats[0], chosenStats[1], chosenStats[2]);
+        CombatStats currCombatStats = CalcCombatStats(currentStats);
         bool confirm = Functions
-            .InputConfirm($"You have chosen: {chosenStats[0]} Strength, {chosenStats[1]} Agility, {chosenStats[2]} Intellect, confirm?");
+            .InputConfirm($"You have chosen: {chosenStats[0]} Strength, {chosenStats[1]} Agility, {chosenStats[2]} Intellect\n"+
+            $"This will give you:\nHealth: {currCombatStats.Health}\n" +
+            $"Mana: {currCombatStats.Mana}\n" +
+            $"Min Damage: {currCombatStats.MinDamage}\n" +
+            $"Max Damage: {currCombatStats.MaxDamage}\n" +
+            $"Armor: {currCombatStats.Armor}\n" +
+            $"Evasion: {currCombatStats.Evasion}\nDo you confirm?");
         if (confirm)
         {
             Console.WriteLine($"Success!");
@@ -132,7 +140,7 @@ public class PlayerProfileCreation
         return playerStats;
     }
 
-    private static CombatStats CalcCombatStats(Stats stats)
+    public static CombatStats CalcCombatStats(Stats stats)
     {
         float [] CombatStats = {
             stats.Strength * 10,

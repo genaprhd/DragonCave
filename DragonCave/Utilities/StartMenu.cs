@@ -11,7 +11,7 @@ public class StartMenu
         "Выход"
     };
     static int selectedIndex = 0;
-    public static void Introduction()
+    static void Introduction()
     {
         Console.Clear();
         Console.WriteLine("Добро пожаловать в Dragon Cave!");
@@ -22,6 +22,7 @@ public class StartMenu
     }
     static void StartScreen()
     {   
+        Introduction();
         Console.Clear();
         Console.CursorVisible = false;
         while (true)
@@ -35,22 +36,35 @@ public class StartMenu
                     // Место для логики загрузки игры
                         Console.Clear();
                         Console.WriteLine("Загрузка игры...");
-                        Thread.Sleep(1000);
+                        Thread.Sleep(2000);
                         Console.Clear();
-                        int selectedIndex = Menu.GetOption(JSONBase.GetAllNames(), 0, "Выберите игрока:");
-                        if (Functions.InputConfirm($"Вы выбрали {JSONBase.GetAllNames()[selectedIndex]}. Подтвердите выбор?")){
-                            var Player = JSONBase.LoadPlayer(selectedIndex);
-                            Console.WriteLine(Player.ToString());
+                        if (JSONBase.IfAnyPlayerSaved()){
+                            int selectedIndex = Menu.GetOption(JSONBase.GetAllNames(), 0, "Выберите игрока:");
+
+                            if (Functions.InputConfirm($"Вы выбрали {JSONBase.GetAllNames()[selectedIndex]}. Подтвердите выбор?"))
+                                {
+                                    var Player = JSONBase.LoadPlayer(selectedIndex);
+                                    Console.WriteLine(Player.ToString());
+                                    Console.WriteLine("Загрузка завершена.");
+                                    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                                    Console.ReadKey(intercept: true);
+                                    ExitGame();
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Выбор отменен.");
+                                    Thread.Sleep(1000);
+                                    StartScreen();
+                                };
                         }
-                        else{
-                            Console.WriteLine("Выбор отменен.");
-                            Thread.Sleep(1000);
+                        else
+                        {   
+                            Console.WriteLine("Нет сохраненных игроков.");
+                            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
+                            Console.ReadKey(intercept: true);
                             StartScreen();
-                        };
-                        Console.WriteLine("Загрузка завершена.");
-                        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                        Console.ReadKey(intercept: true);
-                        ExitGame();
+                        }
                         break;
                     case 2:
                         Console.Clear();

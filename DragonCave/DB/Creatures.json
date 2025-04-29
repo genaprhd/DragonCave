@@ -24,9 +24,9 @@
     "Name": "Erandol",
     "CharRace": "Dragon",
     "Stats":{
-      "Strength": 100,
-      "Agility" : 100,
-      "Intellect": 100
+      "Strength": 1000,
+      "Agility" : 1000,
+      "Intellect": 1000
     },
     "CombatStats": {
       "Health": 150,

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 namespace DragonCave.DB;
 
 public class JSONBase
@@ -97,5 +98,13 @@ public class JSONBase
             throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
         }
         return players[index];
+    }
+    public static bool IfAnyPlayerSaved(){
+        var players = LoadAll();
+        if (players.Count == 0)
+        {
+            return false;
+        }
+        return true;
     }
 }
