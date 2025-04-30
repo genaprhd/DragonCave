@@ -7,11 +7,11 @@ public class PlayerProfileCreation
     public static Character CreateProfile()
     {
         var path = Path.Combine(AppContext.BaseDirectory, "DB", "Creatures.json");
-        Console.WriteLine("Let's create your character!");
+        UILib.TypeWriterEffect("Let's create your character!");
         var baseCharacter = JSONBase.LoadPrefab(path, "NoName");
         if (baseCharacter == null)
         {
-            Console.WriteLine("Failed to load Character");
+            UILib.TypeWriterEffect("Failed to load Character");
         }
         var Player = new Character.CharacterBuilder()
             .WithName(GetCharacterName())
@@ -26,16 +26,16 @@ public class PlayerProfileCreation
         Player.Stats = GetPlayerStats(AccordingToRace(Player.CharRace));
         Player.CombatStats = CalcCombatStats(Player.Stats);
         Console.Clear();
-        Console.WriteLine(Player.ToString());
-        if (Functions.InputConfirm("Do you want to save your character?"))
+        UILib.TypeWriterEffect(Player.ToString());
+        if (Functions.InputConfirm("Do you want to save your character?\n"))
         {
             if (JSONBase.Add(Player))
             {
-                Console.WriteLine("Player added to DB");
+                UILib.TypeWriterEffect("Player added to DB");
             }
             else
             {
-                Console.WriteLine("Player not added to DB");
+                UILib.TypeWriterEffect("Player was not added to DB");
             }
         }
         return Player;
@@ -44,21 +44,21 @@ public class PlayerProfileCreation
     {
         int tryNum = 0;
         string name;
-        Console.WriteLine("Name yourself, mortal.");
+        UILib.TypeWriterEffect("Name yourself, mortal.");
         while (true)
         {
             tryNum++;
 
             if (tryNum > 1)
             {
-                Console.WriteLine("Give me correct Name!");
+                UILib.TypeWriterEffect("Give me correct Name!");
             }
 
             name = Console.ReadLine();
             
             if (string.IsNullOrEmpty(name) || name.Length < 2 || name.Length > 20)
             {
-                Console.WriteLine("Name must be between 2 and 20 characters long.");
+                UILib.TypeWriterEffect("Name must be between 2 and 20 characters long.");
                 Console.Write("Try again.");
                 return GetCharacterName();
             }
@@ -67,12 +67,12 @@ public class PlayerProfileCreation
                 bool YesOrNo = Functions.InputConfirm($"You have chosen: {name}, confirm?");
                 if (YesOrNo == false)
                 {
-                    Console.WriteLine("Choose again.");
+                    UILib.TypeWriterEffect("Choose again.");
                     return GetCharacterName();
                 }
                 else
                 {
-                    Console.WriteLine("\nSuccess! Now, lets proceed to Race selection.");
+                    UILib.TypeWriterEffect("\nSuccess! Now, lets proceed to Race selection.");
                     Console.Write("Press any key to continue...");
                     Console.ReadKey(intercept: true);
                     return name;
@@ -91,13 +91,13 @@ public class PlayerProfileCreation
             .InputConfirm($"You have chosen: {playerRace}, confirm?");
         if (confirm)
         {
-            Console.WriteLine($"\nSuccess! You have chosen: {playerRace}.");    
+            UILib.TypeWriterEffect($"\nSuccess! You have chosen: {playerRace}.");    
             Console.Write("Press any key to continue...");
             return playerRace.ToString();
         }
         else
         {
-            Console.WriteLine("Choose again.");
+            UILib.TypeWriterEffect("Choose again.");
             return GetCharacterRace();
         }
     }
@@ -129,11 +129,11 @@ public class PlayerProfileCreation
             $"Evasion: {currCombatStats.Evasion}\nDo you confirm?");
         if (confirm)
         {
-            Console.WriteLine($"Success!");
+            UILib.TypeWriterEffect($"Success!");
         }
         else
         {
-            Console.WriteLine("Choose again.");
+            UILib.TypeWriterEffect("Choose again.");
             return GetPlayerStats(stats);
         }
         Stats playerStats = new Stats(chosenStats[0], chosenStats[1], chosenStats[2]);
@@ -180,7 +180,7 @@ public class PlayerProfileCreation
             case "Tiefling":
                 return new Stats(6, 7, 7);
             default:
-                Console.WriteLine("Something went wrong");
+                UILib.TypeWriterEffect("Something went wrong");
                 return new Stats(0, 0, 0);
         }
     }

@@ -10,6 +10,7 @@ public class Menu
         while (true)
         {
             DrawMenu(menuItems, selectedIndex, message);
+            UILib.ClearInputBuffer();
             var key = Console.ReadKey(intercept: true).Key;
             switch (key)
             {
@@ -39,6 +40,7 @@ public class Menu
         {
             int toDistibute = limit - menuValues.Sum();
             DrawMenuWithSelection(menuItems, menuValues, selectedIndex, message, stats, toDistibute);
+            UILib.ClearInputBuffer();
             var key = Console.ReadKey(intercept: true).Key;
             switch (key)
             {
@@ -87,7 +89,7 @@ public class Menu
         if (firstOpen)
         {
             Console.Clear();
-            UILib.TypeWriterEffect(message, 50).Wait();
+            UILib.TypeWriterEffect(message);
             for (int i = 0; i < menuItems.Length; i++)
                 {
                     if (i == selectedIndex)
@@ -99,10 +101,11 @@ public class Menu
                     {
                         Console.ResetColor();
                     }
-                UILib.TypeWriterEffect(menuItems[i], 10).Wait();
+                UILib.TypeWriterEffect(menuItems[i]);
                 }
             Console.ResetColor();
-            UILib.TypeWriterEffect("\nUse Up/Down arrows to select, Enter to confirm.", 10).Wait();
+            UILib.TypeWriterEffect("\nUse Up/Down arrows to select, Enter to confirm.");
+            Console.CursorVisible = false;
             firstOpen = false;
         }
         else if (firstOpen == false)
@@ -124,6 +127,8 @@ public class Menu
             }
             Console.ResetColor();
             Console.WriteLine("\nUse Up/Down arrows to select, Enter to confirm.");
+            Console.CursorVisible = false;
+
         }
     }
     static void DrawMenuWithSelection(string[] menuItems, int [] menuValues, int selectedIndex, string message, Stats stats, int limit)
@@ -146,6 +151,8 @@ public class Menu
         }
         Console.ResetColor();
         Console.WriteLine("\nUse Up/Down arrows to select, Left/Right arrows to change values, Enter to confirm.");
+        Console.CursorVisible = false;
+
     }
     static void WhiteColored(ConsoleColor fg, ConsoleColor bg = ConsoleColor.Black)
     {

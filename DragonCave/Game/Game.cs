@@ -3,11 +3,10 @@ namespace DragonCave;
 
 public class Game
 {
-    public static void StartGame()
+    public static void StartGame(Character Player)
     {
         Console.Clear();
         Console.CursorVisible = true;
-        var Player = PlayerProfileCreation.CreateProfile();
         Console.WriteLine($"So, {Player.Name}, you think {Player.CombatStats.Health}HP is enough to beat the Dragon?");
         var path = Path.Combine(AppContext.BaseDirectory, "DB", "Creatures.json");
         var baseDragon = JSONBase.LoadCreature(path, "Erandol");

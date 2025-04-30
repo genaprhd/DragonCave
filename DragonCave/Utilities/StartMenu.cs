@@ -14,71 +14,72 @@ public class StartMenu
     public static void Introduction()
     {
         Console.Clear();
-        UILib.TypeWriterEffect("Добро пожаловать в Dragon Cave!").Wait();
-        UILib.TypeWriterEffect("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.").Wait();
-        UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...").Wait();
+        UILib.TypeWriterEffect("Добро пожаловать в Dragon Cave!");
+        UILib.TypeWriterEffect("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.");
+        UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...");
+        Console.CursorVisible = false;
+        UILib.ClearInputBuffer();
         Console.ReadKey(intercept: true);
-        StartScreen();
+        _ =MainMenu();
     }
-    static void StartScreen()
+    static async Task MainMenu()
     {   
         Console.Clear();
         Console.CursorVisible = false;
         while (true)
         {
-            selectedIndex = Menu.GetOption(MenuItems, selectedIndex, "Dragon Cave");
+            selectedIndex = Menu.GetOption(MenuItems, selectedIndex, "Главное меню\n");
                 switch(selectedIndex){
                      case 0:
-                        Game.StartGame();
+                        Character Player = PlayerProfileCreation.CreateProfile();
+                        Game.StartGame(Player);
                         break;
                     case 1:
-                    // Место для логики загрузки игры
                         Console.Clear();
-                        Console.WriteLine("Загрузка игры...");
-                        Thread.Sleep(2000);
+                        UILib.TypeWriterEffect("Загрузка игры...");
                         Console.Clear();
                         if (JSONBase.IfAnyPlayerSaved()){
                             int selectedIndex = Menu.GetOption(JSONBase.GetAllNames(), 0, "Выберите игрока:");
-
                             if (Functions.InputConfirm($"Вы выбрали {JSONBase.GetAllNames()[selectedIndex]}. Подтвердите выбор?"))
                                 {
-                                    var Player = JSONBase.LoadPlayer(selectedIndex);
-                                    Console.WriteLine(Player.ToString());
-                                    Console.WriteLine("Загрузка завершена.");
-                                    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                                    Player = JSONBase.LoadPlayer(selectedIndex);
+                                    UILib.TypeWriterEffect(Player.ToString());
+                                    UILib.TypeWriterEffect("Загрузка завершена.");
+                                    UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...");
                                     Console.ReadKey(intercept: true);
-                                    ExitGame();
+                                    Game.StartGame(Player);
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Выбор отменен.");
+                                    UILib.TypeWriterEffect("Выбор отменен.");
                                     Thread.Sleep(1000);
-                                    StartScreen();
+                                    _ = MainMenu();
                                 };
                         }
                         else
                         {   
-                            Console.WriteLine("Нет сохраненных игроков.");
-                            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
+                            UILib.TypeWriterEffect("Нет сохраненных игроков.");
+                            UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы вернуться в меню...");
                             Console.ReadKey(intercept: true);
-                            StartScreen();
+                            _ = MainMenu();
                         }
                         break;
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("Кредиты:");
-                        Console.WriteLine("Разработчик: Геннадий П.");
-                        Console.WriteLine("Дизайнер: Геннадий П.");
-                        Console.WriteLine("Тестировщик: Геннадий П.");
-                        Console.WriteLine("Специальная благодарность: Геннадию П.");
-                        Console.WriteLine("Версия: 1.0");
-                        Console.WriteLine($"Дата выхода: {DateTime.Now.ToShortDateString()}");
-                        Console.WriteLine("Лицензия: MIT");
-                        Console.WriteLine("Год: 2025");
-                        Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
+                        UILib.TypeWriterEffect("Кредиты:");
+                        UILib.TypeWriterEffect("Разработчик: Геннадий П.");
+                        UILib.TypeWriterEffect("Дизайнер: Геннадий П.");
+                        UILib.TypeWriterEffect("Тестировщик: Геннадий П.");
+                        UILib.TypeWriterEffect("Специальная благодарность: Геннадию П.");
+                        UILib.TypeWriterEffect("Версия: 1.0");
+                        UILib.TypeWriterEffect($"Дата выхода: {DateTime.Now.ToShortDateString()}");
+                        UILib.TypeWriterEffect("Лицензия: MIT");
+                        UILib.TypeWriterEffect("Год: 2025");
+                        UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы вернуться в меню...");
+                        Console.CursorVisible = false;
                         Console.ReadKey(intercept: true);
-                        StartScreen();
+                        _ = MainMenu();
                         break;
                     }
                     if (selectedIndex == MenuItems.Length - 1)
@@ -89,7 +90,7 @@ public class StartMenu
     public static void ExitGame()
     {
         Console.Clear();
-        Console.WriteLine("Выход из игры...");
+        UILib.TypeWriterEffect("Выход из игры...");
         Thread.Sleep(1000);
         Environment.Exit(0);
     }

@@ -1,64 +1,112 @@
-
-using System.Data.Common;
-
 namespace DragonCave;
 
 public class UILib
 {
-    private static readonly double _baseDelayMean = 50; // Средняя задержка между символами (мс)
+    private static bool _toSkip = false;
+    private static readonly double _baseDelayMean = 40; // Средняя задержка между символами (мс)
     private static readonly double _baseDelayStdDev = 30; // Стандартное отклонение для задержки
-    private static readonly double _wordPauseMin = 200; // Мин. пауза после пробела (мс)
-    private static readonly double _wordPauseMax = 300; // Макс. пауза после пробела
-    private static readonly double _punctuationPauseMin = 200; // Мин. пауза после знаков препинания
+    private static readonly double _wordPauseMin = 50; // Мин. пауза после пробела (мс)
+    private static readonly double _wordPauseMax = 70; // Макс. пауза после пробела
+    private static readonly double _punctuationPauseMin = 20; // Мин. пауза после знаков препинания
     private static readonly double _punctuationPauseMax = 30; // Макс. пауза после знаков
-    private static readonly double _thinkingPauseProbability = 0.05; // Вероятность "размышления"
+    private static readonly double _thinkingPauseProbability = 0.00; // Вероятность "размышления"
     private static readonly double _errorProbability = 0.02; // Вероятность ошибки
 
-    public static async Task TypeWriterEffectAsync(string text, int typeDelayMs = 100, int eraseDelayMs = 50)
+    public static void ClearInputBuffer()
     {
-        
-        Console.CursorVisible = true;
-        foreach (char c in text)
+        while (Console.KeyAvailable)
         {
-            Console.Write(c);
-            await Task.Delay(typeDelayMs);
-        }
-        Console.WriteLine();
-        Console.ReadKey(intercept: true);
-        for (int i = text.Length; i > 0; i--)
-        {
-            Console.Write("\b \b");
-            await Task.Delay(eraseDelayMs);
+            Console.ReadKey(intercept: true);
         }
     }
-    public static async Task TypeWriterEffect(string text, int typeDelayMsMin = 10, int typeDelayMax = 200, bool EnterToContinue = false)
+        static void EnterKeyListener()
+            {
+                while (true)
+                {
+                    if (Console.KeyAvailable)
+                    {
+                        if (Console.ReadKey(intercept: true).Key == ConsoleKey.Enter)
+                        {
+                            _toSkip = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        static void EnterKeyStatus()
+        {
+            Task enterKeyListenerTask = Task.Run(() => EnterKeyListener());
+        }
+            
+        public static async Task TypeWriterEffectAsync(string text, int typeDelayMs = 100, int eraseDelayMs = 50)
+        {
+            EnterKeyStatus();
+            Console.CursorVisible = true;
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                await Task.Delay(typeDelayMs);
+            }
+            Console.WriteLine();
+            for (int i = text.Length; i > 0; i--)
+            {
+                Console.Write("\b \b");
+                await Task.Delay(eraseDelayMs);
+            }
+        }
+    public static void TypeWriterEffect(string text)
+    {   
+        TypingSimulation(text).Wait();
+    }
+    private static async Task TypingSimulation(string text)
     {
+        EnterKeyStatus();
+        _toSkip = false;
         char? prevChar = null;
         Console.CursorVisible = true;
-        foreach (char c in text)
+        int i = 0;
+        while (i < text.Length)
         {
-            double typeDelayMs = GaussianRandom(_baseDelayMean, _baseDelayStdDev);
-            if (prevChar == c)
-                typeDelayMs *= 0.5;
-            if (char.IsWhiteSpace(c))
-                typeDelayMs = Functions.Getrandom.NextDouble() * (_wordPauseMax - _wordPauseMin) + _wordPauseMin;
-            if (char.IsPunctuation(c))
-                typeDelayMs = Functions.Getrandom.NextDouble() * (_punctuationPauseMax - _punctuationPauseMin) + _punctuationPauseMin;
-            if (Functions.Getrandom.NextDouble() < _thinkingPauseProbability)
-                await Task.Delay((int)Functions.Getrandom.NextDouble()*1000 + 500);
-            if (Functions.Getrandom.NextDouble() < _errorProbability)
-            {
-                char nearbyChar = GetRandomNearbyChar(c);
-                Console.Write(nearbyChar);
-                await Task.Delay((int)(Functions.Getrandom.NextDouble() * 200 + 100));
-                Console.Write("\b \b");
-                await Task.Delay((int)typeDelayMs);
-            }
-            Console.Write(c);
-            await Task.Delay((int)typeDelayMs);
+            foreach (char c in text)
+                {
+                    if (!_toSkip)
+                    {
+                        double typeDelayMs = GaussianRandom(_baseDelayMean, _baseDelayStdDev);
+                        if (prevChar == c)
+                            typeDelayMs *= 0.5;
+                        if (char.IsWhiteSpace(c))
+                            typeDelayMs = Functions.Getrandom.NextDouble() * (_wordPauseMax - _wordPauseMin) + _wordPauseMin;
+                        if (char.IsPunctuation(c))
+                            typeDelayMs = Functions.Getrandom.NextDouble() * (_punctuationPauseMax - _punctuationPauseMin) + _punctuationPauseMin;
+                        if (Functions.Getrandom.NextDouble() < _thinkingPauseProbability)
+                            await Task.Delay((int)(Functions.Getrandom.NextDouble()*1000) + 500);
+                        if (Functions.Getrandom.NextDouble() < _errorProbability)
+                        {
+                            char nearbyChar = GetRandomNearbyChar(c);
+                            Console.Write(nearbyChar);
+                            await Task.Delay((int)(Functions.Getrandom.NextDouble() * 200 + 100));
+                            Console.Write("\b \b");
+                            await Task.Delay((int)typeDelayMs);
+                        }
+                            Console.Write(c);
+                            i++;
+                            await Task.Delay((int)typeDelayMs);
+                        if (i == text.Length)
+                        {
+                            _toSkip = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(c);
+                        i++;
+                    }
+                }
+            Console.WriteLine();
         }
-        Console.WriteLine();
     }
+
 
     private static double GaussianRandom(double mean, double stdDev)
     {
@@ -69,21 +117,25 @@ public class UILib
     }
     private static char GetRandomNearbyChar(char original)
     {
-        // Простая заглушка: возвращаем случайную букву из окрестности
         string nearbyRus = "йцукенгшщзхъфывапролджэячсмитьбю";
         string nearbyEng = "qwertyuiopasdfghjklzxcvbnm";
-        if (!nearbyRus.Contains(char.ToLower(original)) || !nearbyEng.Contains(char.ToLower(original)))
-            return original;
-        int index1 = nearbyRus.IndexOf(char.ToLower(original));
-        int index2 = nearbyEng.IndexOf(char.ToLower(original));
-        int newIndex1 = index1 + (Functions.Getrandom.Next(3) - 1); // Смещение на -1, 0 или +1
-        int newIndex2 = index2 + (Functions.Getrandom.Next(3) - 1); // Смещение на -1, 0 или +1
-        newIndex1 = Math.Clamp(newIndex1, 0, nearbyRus.Length - 1);
-        newIndex2 = Math.Clamp(newIndex2, 0, nearbyEng.Length - 1);
-        if (!nearbyRus.Contains(char.ToLower(original)))
-            return nearbyRus[newIndex1];
-        if (!nearbyEng.Contains(char.ToLower(original)))
-            return nearbyEng[newIndex2];
-        return original;
+        char lowerOriginal = char.ToLower(original);
+        if (nearbyRus.Contains(lowerOriginal))
+        {
+            int index = nearbyRus.IndexOf(lowerOriginal);
+            int newIndex = index + (Functions.Getrandom.Next(3) - 1); 
+            newIndex = Math.Clamp(newIndex, 0, nearbyRus.Length - 1);
+            return nearbyRus[newIndex];
+        }
+        else if (nearbyEng.Contains(lowerOriginal))
+        {
+            int index = nearbyEng.IndexOf(lowerOriginal);
+            int newIndex = index + (Functions.Getrandom.Next(3) - 1); 
+            newIndex = Math.Clamp(newIndex, 0, nearbyEng.Length - 1);
+            return nearbyEng[newIndex];
+        }
+        else{
+            return original; // Если символ не в окрестности, возвращаем его как есть
+        }
     }
-}  
+}

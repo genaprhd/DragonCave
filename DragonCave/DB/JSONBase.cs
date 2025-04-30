@@ -5,7 +5,7 @@ namespace DragonCave.DB;
 
 public class JSONBase
 {
-        public static Character LoadPrefab(string filepath, string name)
+        public static Character? LoadPrefab(string filepath, string name)
     {
         if (!File.Exists(filepath))
         {
