@@ -12,10 +12,9 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="SQLite" Version="3.13.0" />
     </ItemGroup>
-
     <ItemGroup>
       <None Update="DB/Creatures.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
     
