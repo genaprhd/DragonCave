@@ -14,9 +14,9 @@ public class StartMenu
     public static void Introduction()
     {
         Console.Clear();
-        Console.WriteLine("Добро пожаловать в Dragon Cave!");
-        Console.WriteLine("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.");
-        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+        UILib.TypeWriterEffect("Добро пожаловать в Dragon Cave!").Wait();
+        UILib.TypeWriterEffect("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.").Wait();
+        UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...").Wait();
         Console.ReadKey(intercept: true);
         StartScreen();
     }

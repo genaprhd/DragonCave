@@ -34,27 +34,32 @@ public class Fight
             }
             else
             {
-                Console.WriteLine($"{mob.Name} choose to block! \nArmor increased by 4: ({4 * mob.CombatStats.Armor})!");
+                Console.WriteLine($"{mob.Name}'s armor increased by 4: ({4 * mob.CombatStats.Armor})!");
                 float regularArmor = mob.CombatStats.Armor;
                 mob.CombatStats.Armor *= 4;
                 Attack(person, mob);
+                Attack(mob, person);
                 mob.CombatStats.Armor = regularArmor;
+                Thread.Sleep(3000);
             }
         }
         else if (move1 == 1)
         {
             if (move2 == 0)
             {
-                Console.WriteLine($"{person.Name} choose to block! \nArmor increased by 4: ({4 * person.CombatStats.Armor})!");
+                Console.WriteLine($"{person.Name}'s armor increased by 4: ({4 * person.CombatStats.Armor})!");
                 float regularArmor = person.CombatStats.Armor;
                 mob.CombatStats.Armor *= 4;
                 Attack(mob, person);
+                Attack(person, mob);
                 person.CombatStats.Armor = regularArmor;
+                Thread.Sleep(3000);
             }
             else
             {
                 Console.WriteLine($"{person.Name} has been blocked and skipped his Attack!\n");
                 Console.WriteLine($"{mob.Name} has been blocked and skipped his Attack!\n");
+                Thread.Sleep(5000);
             }
         }
     }
@@ -70,19 +75,23 @@ public class Fight
             option = Menu.GetOption(MenuItems, 0, "Choose your action: ");
         }
         else{
-            option = Functions.GetRandomNumber(1, 3);
+            option = Functions.GetRandomNumber(0, 2);
         }
+        Console.WriteLine("=====================\n");
         switch (option)
             {
-                case 1:
-                    Thread.Sleep(5000);
+                case 0:
+                    Thread.Sleep(2000);
                     Actions chosen1= Actions.Attack;
                     Console.WriteLine($"{person.Name} choose to {chosen1}!\n");
+                    Console.WriteLine("=====================\n");
+
                     return option;
-                case 2:
-                    Thread.Sleep(5000);
+                case 1:
+                    Thread.Sleep(2000);
                     Actions chosen2 = Actions.Block;
                     Console.WriteLine($"{person.Name} choose to {chosen2}!\n");
+                    Console.WriteLine("=====================\n");
                     return option;
             }
         return option;
@@ -91,7 +100,7 @@ public class Fight
     {
         int MIN_CHANCE = 1;
         int MAX_CHANCE = 101;
-        float chanceToMiss = person.CombatStats.Evasion;
+        int chanceToMiss = person.CombatStats.Evasion;
         int chanceToHit = Functions.GetRandomNumber(MIN_CHANCE, MAX_CHANCE);
 
         if (chanceToHit >= chanceToMiss)
@@ -102,38 +111,37 @@ public class Fight
     } 
     internal static void Attack(Character person1, Character person2)
     {
-        if (hit(person1) && person2.Statuses != Statuses.Blocked)
+        if (hit(person2))
         {
             DealDamage(person1, person2);
         }
-        else if (hit(person1) && person2.Statuses == Statuses.Blocked)
-        {
-            DealDamage(person1, person2);
-        }
-        else if (!hit(person1))
+        else
         {
             Console.WriteLine($"{person1.Name} missed!\n");
+            Thread.Sleep(1000);
         }
     }
     private static void DealDamage(Character person1, Character person2)
     {
         person1.CombatStats.Evasion = Functions.Damage(5,15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
-        float damage = 0;
+        float damage;
         if (person2.Statuses == Statuses.Blocked)
         {
-            damage = person1.CombatStats.MaxDamage - 4 * person2.CombatStats.Evasion;//Сменить на damage
+            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Armor;
         }
         else
         {
-            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Evasion;
+            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Armor;
         }
         if (damage <= 0)
         {
             Console.WriteLine($"{person1.Name} не пробил!");
+            Thread.Sleep(1000);
             damage = 0;
         }
         float oldHealth = person2.CombatStats.Health;
         person2.CombatStats.Health -= damage;
         Console.WriteLine($"{person2.Name} has been hit and received {damage} damage!\n ({oldHealth})HP ---> ({person2.CombatStats.Health})HP");
+        Thread.Sleep(1000);
     }
 }

@@ -148,7 +148,7 @@ public class PlayerProfileCreation
             stats.Strength * 1.2f,
             stats.Strength * 1.3f,
             stats.Agility * stats.Strength / 30,
-            stats.Agility /10
+            Convert.ToInt32(stats.Agility /10)
         };
         CombatStats playerCombatStats = new CombatStats(
             CombatStats[0],
@@ -156,7 +156,7 @@ public class PlayerProfileCreation
             CombatStats[2],
             CombatStats[3],
             CombatStats[4],
-            CombatStats[5]
+            (int)CombatStats[5]
         );
         return playerCombatStats;
     }

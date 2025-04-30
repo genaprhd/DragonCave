@@ -1,6 +1,9 @@
+using System.Data.Common;
+
 namespace DragonCave;
 public class Menu
 {
+    static bool firstOpen = true;
     public static int GetOption(string[] menuItems, int selectedIndex, string message)
     {
         Console.CursorVisible = false;
@@ -22,6 +25,7 @@ public class Menu
                         : selectedIndex + 1;
                     break;
                 case ConsoleKey.Enter:
+                    firstOpen = false;
                     return selectedIndex;
             }
         }
@@ -67,6 +71,7 @@ public class Menu
                 case ConsoleKey.Enter:
                     if (toDistibute == 0)
                     {
+                        firstOpen = false;
                         return menuValues;
                     }
                     else
@@ -79,24 +84,47 @@ public class Menu
     }
     static void DrawMenu(string[] menuItems, int selectedIndex, string message = "")
     {
-        Console.Clear();
-        Console.WriteLine(message);
-        for (int i = 0; i < menuItems.Length; i++)
+        if (firstOpen)
         {
-            if (i == selectedIndex)
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Black;
-            }
-            else
-            {
-                Console.ResetColor();
-            }
-            Console.WriteLine(menuItems[i]);
+            Console.Clear();
+            UILib.TypeWriterEffect(message, 50).Wait();
+            for (int i = 0; i < menuItems.Length; i++)
+                {
+                    if (i == selectedIndex)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                    }
+                UILib.TypeWriterEffect(menuItems[i], 10).Wait();
+                }
+            Console.ResetColor();
+            UILib.TypeWriterEffect("\nUse Up/Down arrows to select, Enter to confirm.", 10).Wait();
+            firstOpen = false;
         }
-        Console.ResetColor();
-        Console.WriteLine("\nUse Up/Down arrows to select, Enter to confirm.");
-
+        else if (firstOpen == false)
+        {
+            Console.Clear();
+            Console.WriteLine(message);
+            for (int i = 0; i < menuItems.Length; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
+                Console.WriteLine(menuItems[i]);
+            }
+            Console.ResetColor();
+            Console.WriteLine("\nUse Up/Down arrows to select, Enter to confirm.");
+        }
     }
     static void DrawMenuWithSelection(string[] menuItems, int [] menuValues, int selectedIndex, string message, Stats stats, int limit)
     {

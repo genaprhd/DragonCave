@@ -31,7 +31,7 @@ public class Functions
         }
     }
 
-    private static readonly Random Getrandom = new Random();
+    public static readonly Random Getrandom = new Random();
     public static int GetRandomNumber(int min, int max)
     {
         lock (Getrandom)

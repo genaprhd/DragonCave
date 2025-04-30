@@ -154,9 +154,9 @@ public class CombatStats
     public float MinDamage { get; set; }
     public float MaxDamage { get; set; }
     public float Armor {get;set;}
-    public float Evasion { get; set; }
+    public int Evasion { get; set; }
     
-    public CombatStats( float health, float mana, float minDamage, float maxDamage, float armor, float evasion)
+    public CombatStats( float health, float mana, float minDamage, float maxDamage, float armor, int evasion)
     {
         Health = health;
         Mana = mana;
