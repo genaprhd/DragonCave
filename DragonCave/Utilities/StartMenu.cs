@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DragonCave.DB;
 
 namespace DragonCave;
@@ -11,12 +12,12 @@ public class StartMenu
         "Выход"
     };
     static int selectedIndex = 0;
-    public static void Introduction()
+    public static async Task Introduction()
     {
         Console.Clear();
-        UILib.TypeWriterEffect("Добро пожаловать в Dragon Cave!");
-        UILib.TypeWriterEffect("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.");
-        UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...");
+        await UILib.TypeWriterEffect("Добро пожаловать в Dragon Cave!");
+        await UILib.TypeWriterEffect("Это текстовая игра, в которой вы будете исследовать подземелья, сражаться c монстрами и находить сокровища.");
+        await UILib.TypeWriterEffect("Нажмите любую клавишу, чтобы продолжить...");
         Console.CursorVisible = false;
         UILib.ClearInputBuffer();
         Console.ReadKey(intercept: true);

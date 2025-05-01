@@ -4,7 +4,7 @@
     {
         private static void Main()
         {
-            StartMenu.Introduction();
+            _ = StartMenu.Introduction();
         }
     }
 }

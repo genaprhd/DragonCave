@@ -38,7 +38,7 @@ public class Fight
                 float regularArmor = mob.CombatStats.Armor;
                 mob.CombatStats.Armor *= 4;
                 Attack(person, mob);
-                Attack(mob, person);
+                //Attack(mob, person);
                 mob.CombatStats.Armor = regularArmor;
                 Thread.Sleep(3000);
             }
@@ -51,7 +51,7 @@ public class Fight
                 float regularArmor = person.CombatStats.Armor;
                 mob.CombatStats.Armor *= 4;
                 Attack(mob, person);
-                Attack(person, mob);
+                //Attack(person, mob);
                 person.CombatStats.Armor = regularArmor;
                 Thread.Sleep(3000);
             }
@@ -123,16 +123,8 @@ public class Fight
     }
     private static void DealDamage(Character person1, Character person2)
     {
-        person1.CombatStats.Evasion = Functions.Damage(5,15); //TODO позднее добавить поле для зачитывания минимального, максимального урона
         float damage;
-        if (person2.Statuses == Statuses.Blocked)
-        {
-            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Armor;
-        }
-        else
-        {
-            damage = person1.CombatStats.MaxDamage - person2.CombatStats.Armor;
-        }
+        damage = Functions.RandomFloatInRange(person1.CombatStats.MinDamage, person1.CombatStats.MaxDamage) - person2.CombatStats.Armor;
         if (damage <= 0)
         {
             Console.WriteLine($"{person1.Name} не пробил!");

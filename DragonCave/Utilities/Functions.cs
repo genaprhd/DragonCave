@@ -83,5 +83,9 @@ public class Functions
             }
         }
     }
+    public static float RandomFloatInRange(float min, float max)
+    {
+        return (float)(Getrandom.NextDouble() * (max - min) + min);
+    }
 }
  

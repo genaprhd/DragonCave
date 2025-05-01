@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace DragonCave;
 
 public class UILib
@@ -54,7 +56,7 @@ public class UILib
                 await Task.Delay(eraseDelayMs);
             }
         }
-    public static void TypeWriterEffect(string text)
+    public static async Task TypeWriterEffect(string text)
     {   
         TypingSimulation(text).Wait();
     }
