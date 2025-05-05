@@ -177,7 +177,9 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+# macOS
 .DS_Store
+# JetBrains
 .idea/
 # Click-Once directory
 publish/
